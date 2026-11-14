@@ -1,0 +1,48 @@
+# Dependencias
+node_modules/
+
+# Build del frontend
+dist/
+dist-ssr/
+*.local
+
+# Tauri / Rust
+src-tauri/target/
+src-tauri/gen/
+src-tauri/icons/*.tmp
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
+
+# Registros y temporales
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+
+# Editores
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Cobertura y pruebas
+coverage/
+playwright-report/
+test-results/
+
+# Datos locales de la demo (no se versionan)
+audiotrace-demo.json
+.verificacion/
+
+# Documentacion y referencias de diseno solo locales
+*.[mM][dD]
+[dD][oO][cC][sS]/
+/stitch_audiotrace_platform_design/
+/stitch_audiotrace_platform_design.zip

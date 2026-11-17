@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "AudioTrace",
+  "version": "0.1.0",
+  "identifier": "com.soupdb.audiotrace",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:5173",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "AudioTrace · Evidencia acústica",
+        "width": 1440,
+        "height": 900,
+        "minWidth": 1024,
+        "minHeight": 680,
+        "resizable": true,
+        "fullscreen": false,
+        "center": true,
+        "backgroundColor": "#fbf8ff"
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "category": "Utility",
+    "shortDescription": "Consola de evidencia de similitud acústica sobre SoupDB",
+    "longDescription": "AudioTrace compara una muestra de audio contra un catálogo de referencia y presenta similitud acústica como evidencia técnica, no como dictamen legal.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}

@@ -95,6 +95,14 @@
   }
 </script>
 
+{#snippet contadorTiempo()}
+  <div class={['flex shrink-0 items-baseline gap-1 rounded-lg px-2 py-1 font-code text-code-sm tabular', esConsola ? 'bg-black/40 text-white' : 'bg-surface-container-low text-on-surface'].join(' ')}>
+    <span class={esConsola ? 'font-semibold text-cyan-300' : 'font-semibold text-primary'}>{formatearDuracion(tiempo)}</span>
+    <span class={esConsola ? 'text-white/35' : 'text-on-surface-variant/60'}>/</span>
+    <span class={esConsola ? 'text-white/65' : 'text-on-surface-variant'}>{formatearDuracion(duracion)}</span>
+  </div>
+{/snippet}
+
 <div
   class={[
     'flex flex-col gap-2 rounded-xl',
@@ -123,8 +131,8 @@
     }}
   ></audio>
 
-  <div class="flex items-center gap-3">
-    {#if mostrarEncabezado}
+  {#if mostrarEncabezado}
+    <div class="flex items-center justify-between gap-3">
       <div class="flex min-w-0 items-center gap-2">
         <span class={['material-symbols-outlined text-[17px]', esConsola ? 'text-tertiary-fixed' : 'text-primary'].join(' ')} aria-hidden="true">equalizer</span>
         <div class="min-w-0">
@@ -138,13 +146,9 @@
           {/if}
         </div>
       </div>
-    {/if}
-    <div class={['ml-auto flex shrink-0 items-baseline gap-1 rounded-lg px-2 py-1 font-code text-code-sm tabular', esConsola ? 'bg-black/40 text-white' : 'bg-surface-container-low text-on-surface'].join(' ')}>
-      <span class={esConsola ? 'font-semibold text-cyan-300' : 'font-semibold text-primary'}>{formatearDuracion(tiempo)}</span>
-      <span class={esConsola ? 'text-white/35' : 'text-on-surface-variant/60'}>/</span>
-      <span class={esConsola ? 'text-white/65' : 'text-on-surface-variant'}>{formatearDuracion(duracion)}</span>
+      {@render contadorTiempo()}
     </div>
-  </div>
+  {/if}
 
   <OndaAudio
     picos={picosUsados}
@@ -208,12 +212,15 @@
           onclick={() => (bucle = !bucle)}
         >
           <span class="material-symbols-outlined text-[16px]">repeat</span>
-          {#if !compacto}<span>Repetir</span>{/if}
+          {#if !compacto && mostrarEncabezado}<span>Repetir</span>{/if}
         </button>
       {/if}
     </div>
 
-    <div class="flex items-center gap-2">
+    <div class="ml-auto flex items-center gap-2">
+      {#if !mostrarEncabezado}
+        {@render contadorTiempo()}
+      {/if}
       {#if !compacto}
         <span class={['material-symbols-outlined text-[17px]', esConsola ? 'text-white/60' : 'text-on-surface-variant'].join(' ')} aria-hidden="true">volume_up</span>
         <input
@@ -222,7 +229,7 @@
           max="1"
           step="0.01"
           value={volumen}
-          class="enlace-foco control-volumen h-2 w-24 cursor-pointer appearance-none rounded-full"
+          class={['enlace-foco control-volumen h-2 cursor-pointer appearance-none rounded-full', mostrarEncabezado ? 'w-24' : 'w-16'].join(' ')}
           class:pista-oscura={esConsola}
           style:--nivel-volumen={`${volumen * 100}%`}
           aria-label="Volumen"

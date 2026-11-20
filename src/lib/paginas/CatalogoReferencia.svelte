@@ -436,20 +436,17 @@
       </div>
     </section>
 
-    <div class="flex items-start gap-2.5 rounded-xl border border-advertencia/30 bg-advertencia-suave p-3 text-body-sm text-amber-900">
-      <span class="material-symbols-outlined mt-0.5 text-[19px] text-advertencia" aria-hidden="true">info</span>
-      <p>
-        {#if esDemo}
-        <strong class="font-semibold">Catálogo local de demostración.</strong>
-        Las obras base y las referencias que añadas se resuelven en este navegador; las nuevas se
-        guardan en el almacenamiento local. Esta build no ejecuta una indexación vectorial real ni
-        envía el catálogo a un servicio remoto.
-        {:else}
-        <strong class="font-semibold">Catálogo del servicio de solo lectura.</strong>
-        Las altas e importaciones no están disponibles en esta API. El catálogo se prepara con las herramientas de SoupDB antes de iniciar el servicio; esta interfaz conserva esas funciones para la demo y una integración futura.
-        {/if}
-      </p>
-    </div>
+    {#if esDemo}
+      <div class="flex items-start gap-2.5 rounded-xl border border-advertencia/30 bg-advertencia-suave p-3 text-body-sm text-amber-900">
+        <span class="material-symbols-outlined mt-0.5 text-[19px] text-advertencia" aria-hidden="true">info</span>
+        <p>
+          <strong class="font-semibold">Catálogo local de demostración.</strong>
+          Las obras base y las referencias que añadas se resuelven en este navegador; las nuevas se
+          guardan en el almacenamiento local. Esta build no ejecuta una indexación vectorial real ni
+          envía el catálogo a un servicio remoto.
+        </p>
+      </div>
+    {/if}
 
     <div class={['grid min-w-0 grid-cols-1 items-start gap-4', resumenSeleccionado ? 'xl:grid-cols-[minmax(0,1fr)_380px]' : ''].join(' ')}>
       {#if resumenSeleccionado}

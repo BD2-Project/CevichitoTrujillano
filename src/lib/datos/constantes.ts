@@ -1,7 +1,7 @@
 import type { FiltrosHistorial } from './tipos';
 
-export const NOMBRE_APLICACION = 'AudioTrace';
-export const NOMBRE_COMPLETO = 'AudioTrace · Evidencia acústica';
+export const NOMBRE_APLICACION = 'CevichitoTrujillano';
+export const NOMBRE_COMPLETO = 'CevichitoTrujillano · Evidencia acústica';
 export const NOMBRE_SERVICIO = 'soupdb-copyright-api';
 export const VERSION_ESQUEMA = 'v1.1';
 
@@ -64,6 +64,6 @@ export const GENEROS = [
 export const EXTENSIONES_AUDIO = ['.wav', '.mp3', '.flac', '.ogg', '.au'] as const;
 
 export const CLAVES_ALMACENAMIENTO = {
-  preferencias: 'audiotrace:preferencias',
-  borradores: 'audiotrace:borradores'
+  preferencias: 'cevichitotrujillano:preferencias',
+  borradores: 'cevichitotrujillano:borradores'
 } as const;

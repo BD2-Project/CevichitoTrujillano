@@ -112,7 +112,7 @@
 
   function textoDiagnostico(): string {
     const lineas = [
-      'AudioTrace · Diagnóstico de análisis',
+      'CevichitoTrujillano · Diagnóstico de análisis',
       `Código de diagnóstico: ${codigoBase}${codigoDesconocido ? ` (solicitado: ${codigoSolicitado || 'sin código'})` : ''}`,
       `Origen: ${usaErrorActual ? 'Último intento' : 'Vista de ejemplo; no representa una solicitud fallida real'}`,
       `Título: ${error.titulo}`,

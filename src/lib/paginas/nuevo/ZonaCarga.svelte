@@ -21,10 +21,10 @@
   const formatosAdmitidos = new Intl.ListFormat('es').format(
     EXTENSIONES_AUDIO.map((extension) => extension.slice(1).toUpperCase())
   );
-  const picosVacios = picosSimulados('audiotrace-sin-archivo', 96);
+  const picosVacios = picosSimulados('cevichitotrujillano-sin-archivo', 96);
 
   const metadatos = $derived(app.configuracion.metadatosArchivo);
-  const picos = $derived(picosSimulados(app.archivo?.name ?? 'audiotrace', 140));
+  const picos = $derived(picosSimulados(app.archivo?.name ?? 'cevichitotrujillano', 140));
 
   const formato = $derived(
     metadatos?.formato ?? app.archivo?.name.split('.').pop()?.toUpperCase() ?? '—'

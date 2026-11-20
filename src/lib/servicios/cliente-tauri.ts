@@ -2,7 +2,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { NOMBRE_SERVICIO } from '../datos/constantes';
 import type {
   CancionCatalogo,
-  ClienteAudioTrace,
+  ClienteCevichitoTrujillano,
   ConfiguracionAnalisis,
   DetalleCancion,
   EstadoConexion,
@@ -29,7 +29,7 @@ export function tauriDisponible(): boolean {
   return typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
 }
 
-export class ClienteTauri implements ClienteAudioTrace {
+export class ClienteTauri implements ClienteCevichitoTrujillano {
   readonly modo = 'tauri' as const;
 
   estadoConexion(): EstadoConexion {

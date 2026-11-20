@@ -198,7 +198,7 @@
 
   function descargarPlantilla(): void {
     const blob = new Blob([`\uFEFF${plantillaCsv()}`], { type: 'text/csv;charset=utf-8' });
-    descargarBlob(blob, 'audiotrace-plantilla-catalogo.csv');
+    descargarBlob(blob, 'cevichitotrujillano-plantilla-catalogo.csv');
     app.notificar('info', 'Plantilla descargada', 'Incluye las ocho cabeceras admitidas y tres filas de ejemplo.');
   }
 

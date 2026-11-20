@@ -43,7 +43,7 @@
   <EncabezadoPagina
     etiqueta="Sistema · HTTP 404"
     titulo="No encontramos esta ruta"
-    descripcion="La dirección solicitada no corresponde a ninguna pantalla de AudioTrace. La consola sigue disponible desde el menú lateral."
+    descripcion="La dirección solicitada no corresponde a ninguna pantalla de CevichitoTrujillano. La consola sigue disponible desde el menú lateral."
     icono="explore_off"
   >
     {#snippet acciones()}

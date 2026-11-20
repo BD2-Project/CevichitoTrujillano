@@ -1,5 +1,5 @@
 import type {
-  CancionCatalogo, ClienteAudioTrace, ConfiguracionAnalisis, DetalleCancion,
+  CancionCatalogo, ClienteCevichitoTrujillano, ConfiguracionAnalisis, DetalleCancion,
   EstadoConexion, ProgresoAnalisis, ReferenciaNueva, ResultadoAnalisis,
   ResultadoImportacion, ResumenAnalisis, CodigoErrorAnalisis
 } from '../datos/tipos';
@@ -28,7 +28,7 @@ interface AnalisisHttp extends FilaAnalisis {
   audio_url?: string;
 }
 
-export class ClienteRest implements ClienteAudioTrace {
+export class ClienteRest implements ClienteCevichitoTrujillano {
   readonly modo = 'rest' as const;
   private readonly origen: string;
   private conectado = false;

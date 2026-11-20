@@ -38,7 +38,7 @@
   let bucle = $state(false);
   let errorAudio = $state<string | null>(null);
 
-  const picosUsados = $derived(picos ?? picosSimulados(titulo ?? urlAudio ?? 'audiotrace', 140));
+  const picosUsados = $derived(picos ?? picosSimulados(titulo ?? urlAudio ?? 'cevichitotrujillano', 140));
   const finRegion = $derived(regiones.reduce((maximo, region) => Math.max(maximo, region.fin), 0));
   const duracion = $derived(Math.max(duracionReal, duracionSegundos ?? 0, finRegion, 0.1));
   const esConsola = $derived(variante === 'consola');

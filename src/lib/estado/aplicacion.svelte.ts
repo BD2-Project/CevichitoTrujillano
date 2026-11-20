@@ -195,7 +195,7 @@ class EstadoAplicacion {
             'Reintenta el análisis con el mismo archivo.',
             'Si vuelve a fallar, revisa la consola del navegador o el log del servicio nativo.'
           ],
-          solicitud: 'Pipeline local de AudioTrace',
+          solicitud: 'Pipeline local de CevichitoTrujillano',
           fecha: new Date().toISOString()
         };
       }

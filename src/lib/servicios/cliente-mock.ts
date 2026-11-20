@@ -13,7 +13,7 @@ import {
 } from '../datos/mock';
 import type {
   CancionCatalogo,
-  ClienteAudioTrace,
+  ClienteCevichitoTrujillano,
   CodigoErrorAnalisis,
   Coincidencia,
   ConfiguracionAnalisis,
@@ -28,7 +28,7 @@ import type {
 } from '../datos/tipos';
 import { generarIdAnalisis, limitar, normalizarBusqueda } from '../utilidades/formato';
 
-const CLAVE_PERSISTENCIA = 'audiotrace:demo:v1';
+const CLAVE_PERSISTENCIA = 'cevichitotrujillano:demo:v1';
 const VERSION_PERSISTENCIA = 1;
 
 interface PersistenciaDemo {
@@ -123,7 +123,7 @@ function extensionValida(nombre: string): boolean {
 }
 
 /** Genera evidencia determinista a partir del nombre y el tamaño del archivo. */
-export class ClienteMock implements ClienteAudioTrace {
+export class ClienteMock implements ClienteCevichitoTrujillano {
   readonly modo = 'demo' as const;
 
   private catalogo: DetalleCancion[] = [];

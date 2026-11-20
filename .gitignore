@@ -38,11 +38,15 @@ playwright-report/
 test-results/
 
 # Datos locales de la demo (no se versionan)
-audiotrace-demo.json
+cevichitotrujillano-demo.json
 .verificacion/
+
+# Experimentos locales con pnpm (el proyecto usa npm)
+pnpm-lock.yaml
+pnpm-workspace.yaml
 
 # Documentacion y referencias de diseno solo locales
 *.[mM][dD]
 [dD][oO][cC][sS]/
-/stitch_audiotrace_platform_design/
-/stitch_audiotrace_platform_design.zip
+/stitch_cevichitotrujillano_platform_design/
+/stitch_cevichitotrujillano_platform_design.zip

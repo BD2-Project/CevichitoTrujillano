@@ -167,7 +167,7 @@ export interface EstadoConexion {
 }
 
 /** Contrato del adaptador de datos. El modo demo lo implementa en memoria. */
-export interface ClienteAudioTrace {
+export interface ClienteCevichitoTrujillano {
   readonly modo: 'demo' | 'tauri' | 'rest';
   estadoConexion(): EstadoConexion;
   listarCatalogo(): Promise<CancionCatalogo[]>;

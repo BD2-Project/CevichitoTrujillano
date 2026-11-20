@@ -1,8 +1,8 @@
 {
-  "name": "audiotrace",
+  "name": "cevichitotrujillano",
   "private": true,
   "version": "0.1.0",
-  "description": "AudioTrace · Frontend de evidencia de similitud acústica para SoupDB",
+  "description": "CevichitoTrujillano · Frontend de evidencia de similitud acústica para SoupDB",
   "type": "module",
   "scripts": {
     "dev": "vite",

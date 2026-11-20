@@ -19,5 +19,5 @@ pub fn run() {
             importar_dataset
         ])
         .run(tauri::generate_context!())
-        .expect("no se pudo iniciar AudioTrace");
+        .expect("no se pudo iniciar CevichitoTrujillano");
 }

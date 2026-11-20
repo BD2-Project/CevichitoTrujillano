@@ -146,7 +146,7 @@ export function exportarCsvHistorial(analisis: ResumenAnalisis[]): void {
   const fecha = new Date().toISOString().slice(0, 10);
   descargarBlob(
     new Blob([`\uFEFF${lineas.join('\r\n')}`], { type: 'text/csv;charset=utf-8' }),
-    `audiotrace-historial-${fecha}.csv`
+    `cevichitotrujillano-historial-${fecha}.csv`
   );
 }
 
@@ -156,7 +156,7 @@ export function exportarJsonHistorial(analisis: ResumenAnalisis[]): void {
     new Blob([JSON.stringify({ generadoEn: new Date().toISOString(), analisis }, null, 2)], {
       type: 'application/json;charset=utf-8'
     }),
-    `audiotrace-historial-${fecha}.json`
+    `cevichitotrujillano-historial-${fecha}.json`
   );
 }
 

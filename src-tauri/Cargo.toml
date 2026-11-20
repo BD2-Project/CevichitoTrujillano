@@ -1,13 +1,13 @@
 [package]
-name = "audiotrace"
+name = "cevichito-trujillano"
 version = "0.1.0"
-description = "Shell Tauri de AudioTrace sobre SoupDB"
-authors = ["AudioTrace"]
+description = "Shell Tauri de CevichitoTrujillano sobre SoupDB"
+authors = ["CevichitoTrujillano"]
 edition = "2021"
 rust-version = "1.77"
 
 [lib]
-name = "audiotrace_lib"
+name = "cevichito_trujillano_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

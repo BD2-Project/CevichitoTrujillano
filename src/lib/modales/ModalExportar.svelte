@@ -124,7 +124,7 @@
   const baseSalida = $derived(
     resultado
       ? nombreArchivoSeguro(resultado.nombreArchivo).replace(/\.[^.]+$/, '')
-      : 'audiotrace'
+      : 'cevichitotrujillano'
   );
   const nombreSalida = $derived(
     formato === 'pdf'

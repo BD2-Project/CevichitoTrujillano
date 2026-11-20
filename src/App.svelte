@@ -102,7 +102,7 @@
 
   <Modal
     abierto={acercaDe}
-    titulo="Acerca de AudioTrace"
+    titulo="Acerca de CevichitoTrujillano"
     subtitulo="Consola de evidencia de similitud acústica sobre SoupDB"
     icono="graphic_eq"
     ancho="md"
@@ -110,7 +110,7 @@
   >
     <div class="space-y-4 text-body-md text-on-surface-variant">
       <p>
-        AudioTrace compara una muestra de audio contra el catálogo de referencia y presenta
+        CevichitoTrujillano compara una muestra de audio contra el catálogo de referencia y presenta
         <strong class="text-on-surface">similitud acústica</strong>, no un dictamen ni una probabilidad de infracción.
         No existe un umbral legal integrado en la interfaz.
       </p>

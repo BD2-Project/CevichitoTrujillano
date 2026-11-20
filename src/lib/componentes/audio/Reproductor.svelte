@@ -12,6 +12,7 @@
     regiones = [],
     variante = 'consola',
     compacto = false,
+    mostrarEncabezado = true,
     permitirBucle = true,
     onSolicitarAudio
   }: {
@@ -22,6 +23,7 @@
     regiones?: RegionOnda[];
     variante?: 'consola' | 'claro';
     compacto?: boolean;
+    mostrarEncabezado?: boolean;
     permitirBucle?: boolean;
     onSolicitarAudio?: () => void;
   } = $props();
@@ -121,21 +123,23 @@
     }}
   ></audio>
 
-  <div class="flex items-center justify-between gap-3">
-    <div class="flex min-w-0 items-center gap-2">
-      <span class={['material-symbols-outlined text-[17px]', esConsola ? 'text-tertiary-fixed' : 'text-primary'].join(' ')} aria-hidden="true">equalizer</span>
-      <div class="min-w-0">
-        <p class={['truncate text-label-md font-semibold', esConsola ? 'text-white' : 'text-on-surface'].join(' ')}>
-          {titulo ?? 'Monitor de audio'}
-        </p>
-        {#if !compacto}
-          <p class={['truncate text-code-sm', esConsola ? 'text-white/55' : 'text-on-surface-variant'].join(' ')}>
-            {urlAudio ? (urlAudio.startsWith('blob:') ? 'Archivo local · reproducción real' : 'Audio de referencia · reproducción desde SoupDB') : 'Sin archivo de audio disponible'}
+  <div class="flex items-center gap-3">
+    {#if mostrarEncabezado}
+      <div class="flex min-w-0 items-center gap-2">
+        <span class={['material-symbols-outlined text-[17px]', esConsola ? 'text-tertiary-fixed' : 'text-primary'].join(' ')} aria-hidden="true">equalizer</span>
+        <div class="min-w-0">
+          <p class={['truncate text-label-md font-semibold', esConsola ? 'text-white' : 'text-on-surface'].join(' ')}>
+            {titulo ?? 'Monitor de audio'}
           </p>
-        {/if}
+          {#if !compacto}
+            <p class={['truncate text-code-sm', esConsola ? 'text-white/55' : 'text-on-surface-variant'].join(' ')}>
+              {urlAudio ? (urlAudio.startsWith('blob:') ? 'Archivo local · reproducción real' : 'Audio de referencia · reproducción desde SoupDB') : 'Sin archivo de audio disponible'}
+            </p>
+          {/if}
+        </div>
       </div>
-    </div>
-    <div class={['flex shrink-0 items-baseline gap-1 rounded-lg px-2 py-1 font-code text-code-sm tabular', esConsola ? 'bg-black/40 text-white' : 'bg-surface-container-low text-on-surface'].join(' ')}>
+    {/if}
+    <div class={['ml-auto flex shrink-0 items-baseline gap-1 rounded-lg px-2 py-1 font-code text-code-sm tabular', esConsola ? 'bg-black/40 text-white' : 'bg-surface-container-low text-on-surface'].join(' ')}>
       <span class={esConsola ? 'font-semibold text-cyan-300' : 'font-semibold text-primary'}>{formatearDuracion(tiempo)}</span>
       <span class={esConsola ? 'text-white/35' : 'text-on-surface-variant/60'}>/</span>
       <span class={esConsola ? 'text-white/65' : 'text-on-surface-variant'}>{formatearDuracion(duracion)}</span>

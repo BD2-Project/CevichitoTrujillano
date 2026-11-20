@@ -115,6 +115,7 @@
       duracionSegundos={cancion.duracionSegundos}
       {regiones}
       variante="claro"
+      mostrarEncabezado={false}
       onSolicitarAudio={onSolicitarAudio}
     />
   {/if}

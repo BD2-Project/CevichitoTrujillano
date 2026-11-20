@@ -235,7 +235,7 @@
       expedientes
     </p>
     <p class="font-code text-code-sm text-on-surface-variant">
-      Paginación local · {formatearNumero(tamanoPagina)} por página
+      {formatearNumero(tamanoPagina)} por página
     </p>
   </div>
 </section>

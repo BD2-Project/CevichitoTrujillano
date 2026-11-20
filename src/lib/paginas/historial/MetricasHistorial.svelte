@@ -61,11 +61,10 @@
     mono
   >
     {#snippet pie()}
-      <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+      <div class="pt-1">
         <Insignia tono="info" punto>
           {formatearNumero(metricas.conEvidencia)} con evidencia
         </Insignia>
-        <span class="font-code text-code-sm text-on-surface-variant">MFCC · 20 coef.</span>
       </div>
     {/snippet}
   </TarjetaMetrica>
@@ -80,12 +79,11 @@
     mono
   >
     {#snippet pie()}
-      <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+      <div class="pt-1">
         <Insignia tono="neutro">
           {metricas.sinEvidencia} sin evidencia
           {#if metricas.errores > 0}· {metricas.errores} con error{/if}
         </Insignia>
-        <span class="font-code text-code-sm text-on-surface-variant">HNSW · euclidiana</span>
       </div>
     {/snippet}
   </TarjetaMetrica>
@@ -99,14 +97,13 @@
     mono
   >
     {#snippet pie()}
-      <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+      <div class="pt-1">
         <Insignia
           tono={metricas.mejorGlobal === null ? 'neutro' : tonoSimilitud(metricas.mejorGlobal)}
           icono="graphic_eq"
         >
           {metricas.mejorGlobal === null ? 'Sin evidencia' : etiquetaSimilitud(metricas.mejorGlobal)}
         </Insignia>
-        <span class="font-code text-code-sm text-on-surface-variant">128 dims</span>
       </div>
     {/snippet}
   </TarjetaMetrica>

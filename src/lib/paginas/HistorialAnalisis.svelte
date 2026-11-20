@@ -94,7 +94,7 @@
   </EncabezadoPagina>
 
   <MetricasHistorial {metricas} />
-  <BarraFiltros {filtros} total={app.analisis.length} visibles={filtrados.length} {conteoEstados} {tamanoPagina} onLimpiar={limpiarFiltros} />
+  <BarraFiltros {filtros} total={app.analisis.length} visibles={filtrados.length} {conteoEstados} onLimpiar={limpiarFiltros} />
 
   {#if app.cargandoInicial}
     <div class="flex items-center justify-center gap-2 rounded-xl border border-outline-variant/50 bg-surface-container-lowest p-12 text-body-md text-on-surface-variant" role="status">

@@ -41,10 +41,10 @@ export class ClienteRest implements ClienteAudioTrace {
     };
   }
 
-  private fallo(codigo: CodigoErrorAnalisis, detalle: string, ruta: string): ErrorServicioAnalisis {
+  private fallo(codigo: CodigoErrorAnalisis, detalle: string, ruta: string, sugerencias?: string[]): ErrorServicioAnalisis {
     const base = ERRORES_DEMO[codigo];
     return new ErrorServicioAnalisis({
-      ...base, mensaje: detalle, detalle,
+      ...base, mensaje: detalle, detalle, sugerencias: sugerencias ?? base.sugerencias,
       solicitud: `${this.origen}/api/v1${ruta}`,
       fecha: new Date().toISOString()
     });
@@ -59,6 +59,11 @@ export class ClienteRest implements ClienteAudioTrace {
       });
       this.conectado = respuesta.status !== 503;
       if (respuesta.status === 404 && aceptarAusente) return null;
+      if (respuesta.status === 413) {
+        throw this.fallo('422', 'El archivo supera el tamaño máximo de carga.', ruta, [
+          'Selecciona un archivo más pequeño o recorta la muestra.'
+        ]);
+      }
       if (!respuesta.ok) {
         const cuerpo: unknown = await respuesta.json().catch(() => null);
         const detalle = cuerpo && typeof cuerpo === 'object' && 'detail' in cuerpo ? cuerpo.detail : null;
@@ -124,12 +129,13 @@ export class ClienteRest implements ClienteAudioTrace {
     const fila = await this.solicitar<Omit<FilaAnalisis, 'created_at'> & { created_at?: string }>('/analyze', { method: 'POST', body: formulario });
     if (!fila) throw this.fallo('500', 'El servicio no devolvió un resultado.', '/analyze');
     const { created_at, ...analisis } = fila;
-    const resultado = created_at
+    const persistido = created_at
       ? mapearResultado({ ...analisis, created_at })
-      : {
-          ...mapearResultado({ ...analisis, created_at: new Date().toISOString() }),
-          origen: 'local' as const
-        };
+      : await this.obtenerAnalisis(fila.analysis_id).catch(() => null);
+    const resultado = persistido ?? {
+      ...mapearResultado({ ...analisis, created_at: new Date().toISOString() }),
+      origen: 'local' as const
+    };
     resultado.metadatos = configuracion.metadatosArchivo;
     onProgreso?.({ porcentaje: 100, etapa: 'Completado', detalle: 'Resultado recibido del servicio de análisis.' });
     return resultado;

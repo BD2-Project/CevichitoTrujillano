@@ -18,6 +18,9 @@
   let arrastrando = $state(false);
 
   const ACEPTADOS = EXTENSIONES_AUDIO.join(',');
+  const formatosAdmitidos = new Intl.ListFormat('es').format(
+    EXTENSIONES_AUDIO.map((extension) => extension.slice(1).toUpperCase())
+  );
   const picosVacios = picosSimulados('audiotrace-sin-archivo', 96);
 
   const metadatos = $derived(app.configuracion.metadatosArchivo);
@@ -152,8 +155,8 @@
           {/if}
         </span>
         <span id="ayuda-carga" class="max-w-lg text-body-sm leading-relaxed text-on-surface-variant">
-          Formatos admitidos: WAV, MP3, FLAC, OGG o AU. Se necesita al menos un tramo de 2,5 s para consultar
-          el índice. La compatibilidad de reproducción depende de los códecs del navegador.
+          El análisis admite archivos {formatosAdmitidos} de al menos 2,5 segundos.
+          La preescucha depende de los códecs compatibles con tu navegador.
         </span>
       </span>
     </button>

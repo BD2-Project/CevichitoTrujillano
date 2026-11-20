@@ -27,10 +27,7 @@ const CABECERAS_OBLIGATORIAS: readonly CabeceraCsv[] = [
 export const CABECERAS_TEXTO =
   'titulo;artista;anio;genero;coleccion;duracion_segundos;ruta_audio;licencia';
 
-/**
- * Alias tolerantes: se normalizan tildes y mayúsculas, de modo que «Año»,
- * «Duración_segundos» o «Ruta de audio» también se aceptan.
- */
+/** Los alias aceptan tildes y mayúsculas. */
 const ALIAS: Partial<Record<string, CabeceraCsv>> = {
   titulo: 'titulo',
   artista: 'artista',

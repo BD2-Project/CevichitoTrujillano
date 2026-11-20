@@ -1,12 +1,3 @@
-/**
- * Modelo de dominio de AudioTrace.
- *
- * Los nombres y campos reflejan el contrato real de
- * `SoupDB/applications/copyright_detection`:
- * - `songs` y `audio_segments` para el catálogo.
- * - `analyses` y `analysis_matches` para el historial.
- * - `score` es similitud acústica en [0, 1], nunca una probabilidad ni un dictamen.
- */
 
 export type EstadoAnalisis = 'con-evidencia' | 'sin-evidencia' | 'error';
 

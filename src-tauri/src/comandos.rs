@@ -446,8 +446,7 @@ pub async fn obtener_analisis(id_analisis: String) -> Result<Option<FilaAnalisis
     }))
 }
 
-/// El pipeline MFCC/HNSW no vive en Rust ni en rsoup: pertenece al servicio
-/// Python de SoupDB. Este comando queda como punto de enlace explícito.
+/// El servicio Python de SoupDB-Copyright ejecuta el pipeline MFCC/HNSW.
 #[tauri::command]
 pub async fn analizar_audio(
     nombre_archivo: String,
@@ -472,9 +471,7 @@ async fn siguiente_id(manager: &mut TransactionManager, tabla: &str, columna: &s
     maximo.checked_add(1).ok_or_else(|| format!("No quedan identificadores INT disponibles en {tabla}.{columna}"))
 }
 
-/// Contrato de ingesta previa al índice. Este adaptador usa autocommit y limpieza
-/// best effort, aunque rsoup dispone de begin/commit/rollback. No es una operación
-/// atómica y no debe ejecutarse contra el runtime de copyright de solo lectura.
+/// Ingesta previa al índice con autocommit y limpieza de mejor esfuerzo.
 #[tauri::command]
 pub async fn agregar_referencia(referencia: ReferenciaNueva) -> Result<FilaCancion, String> {
     validar_texto("titulo", &referencia.titulo)?;

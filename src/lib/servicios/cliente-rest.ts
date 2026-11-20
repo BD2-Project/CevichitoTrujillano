@@ -24,7 +24,6 @@ interface CatalogoHttp {
   songs: CancionHttp[];
 }
 
-/** Contrato exacto de applications/copyright_detection/app.py. Sin fallback a mocks. */
 export class ClienteRest implements ClienteAudioTrace {
   readonly modo = 'rest' as const;
   private readonly origen: string;
@@ -124,7 +123,7 @@ export class ClienteRest implements ClienteAudioTrace {
     onProgreso?.({ porcentaje: 0, etapa: 'Servicio de análisis', detalle: 'Enviando el audio y esperando la respuesta de SoupDB. La API no publica progreso por etapa.' });
     const fila = await this.solicitar<Omit<FilaAnalisis, 'created_at'>>('/analyze', { method: 'POST', body: formulario });
     if (!fila) throw this.fallo('500', 'El servicio no devolvió un resultado.', '/analyze');
-    // POST no incluye created_at; se consulta el registro persistido sin repetir el análisis.
+    // Consulta el resultado persistido sin repetir el an?lisis.
     const persistido = await this.obtenerAnalisis(fila.analysis_id).catch(() => null);
     const resultado = persistido ?? { ...mapearResultado({ ...fila, created_at: new Date().toISOString() }), origen: 'local' as const };
     resultado.metadatos = configuracion.metadatosArchivo;

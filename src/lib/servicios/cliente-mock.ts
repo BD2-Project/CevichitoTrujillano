@@ -122,13 +122,7 @@ function extensionValida(nombre: string): boolean {
   return EXTENSIONES_AUDIO.some((extension) => minusculas.endsWith(extension));
 }
 
-/**
- * Adaptador en memoria que replica el contrato de SoupDB.
- *
- * No pretende sustituir al pipeline MFCC/HNSW: genera evidencia determinista
- * a partir del nombre y el tamaño del archivo para que la interfaz sea
- * navegable sin backend. Toda similitud es un valor de [0, 1], no un dictamen.
- */
+/** Genera evidencia determinista a partir del nombre y el tamaño del archivo. */
 export class ClienteMock implements ClienteAudioTrace {
   readonly modo = 'demo' as const;
 

@@ -15,22 +15,6 @@ import type {
 } from '../datos/tipos';
 import { archivoABytes } from '../utilidades/audio';
 
-/**
- * Adaptador Tauri + rsoup.
- *
- * Contrato preparado, no conectado por defecto. Los comandos Rust deben
- * devolver filas con los nombres de columna reales de SoupDB; el mapeo a
- * camelCase se hace aquí para que las páginas nunca dependan de SQL.
- *
- * Comandos esperados en `src-tauri/src/lib.rs`:
- * - `listar_catalogo`     → FilaCancion[]
- * - `obtener_cancion`     → FilaCancion | null
- * - `listar_analisis`     → FilaAnalisisResumen[]
- * - `obtener_analisis`    → FilaAnalisis | null
- * - `analizar_audio`      → FilaAnalisis
- * - `agregar_referencia`  → FilaCancion
- * - `importar_dataset`    → ResultadoImportacion
- */
 
 interface FilaSegmento {
   segment_id: number;

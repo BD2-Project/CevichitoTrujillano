@@ -1,9 +1,5 @@
 @import 'tailwindcss';
 
-/* ============================================================
-   AudioTrace · Sistema de diseño "Spectral Precision"
-   Los tokens replican stitch_audiotrace_platform_design/spectral_precision/DESIGN.md
-   ============================================================ */
 @theme {
   /* Superficies y tinta */
   --color-surface: #fbf8ff;

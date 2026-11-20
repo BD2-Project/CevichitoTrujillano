@@ -54,11 +54,7 @@ export interface MetadatosAudio {
   canales?: number;
 }
 
-/**
- * Lee metadatos reales del archivo. Para archivos razonables se decodifica
- * con Web Audio (duración, frecuencia de muestreo y canales exactos); si el
- * navegador no puede decodificarlo se recurre al elemento <audio>.
- */
+/** Lee metadatos con Web Audio y recurre al elemento multimedia si falla la decodificación. */
 export async function leerMetadatosAudio(archivo: File): Promise<MetadatosAudio> {
   if (archivo.size > 0 && archivo.size <= 40 * 1024 * 1024 && typeof AudioContext !== 'undefined') {
     let contexto: AudioContext | null = null;

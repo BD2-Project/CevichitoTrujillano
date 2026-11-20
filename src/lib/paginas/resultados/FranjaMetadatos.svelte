@@ -106,16 +106,11 @@
     {/each}
   </dl>
 
-  <div class="mt-3 flex flex-wrap items-center gap-2 border-t border-outline-variant/40 pt-3">
-    <span class="text-label-sm font-semibold uppercase tracking-[0.05em] text-on-surface-variant">ID del expediente</span>
-    <code class="min-w-0 break-all font-code text-code-sm text-on-surface">{resultado.idAnalisis}</code>
-  </div>
-
   <div class="mt-3 flex items-start gap-2 rounded-lg border border-tertiary/20 bg-tertiary/5 px-3 py-2 text-body-sm text-on-surface-variant">
     <span class="material-symbols-outlined mt-px text-[16px] text-tertiary" aria-hidden="true">info</span>
     <p class="texto-pretty">
       <strong class="text-on-surface">Similitud técnica, no dictamen legal.</strong>
-      Los valores describen cercanía entre descriptores acústicos y no estiman probabilidad de infracción.
+      La similitud mide cuánto se parecen los tramos de audio.
       La interfaz no aplica un umbral legal.
     </p>
   </div>

@@ -18,7 +18,6 @@
   import type { ResultadoAnalisis, Tono } from '../datos/tipos';
   import { exportarCsvResultado, exportarPdfResultado } from '../servicios/exportacion';
   import {
-    abreviarId,
     descargarBlob,
     etiquetaSimilitud,
     formatearDuracion,
@@ -88,7 +87,7 @@
   let resultado = $state<ResultadoAnalisis | null>(null);
 
   let formato = $state<FormatoExportacion>('pdf');
-  let tituloReporte = $state('Resultados del cotejo acústico');
+  let tituloReporte = $state('Resultados del análisis');
   let incluirMetadatos = $state(true);
   let incluirResumen = $state(true);
   let incluirCoincidencias = $state(true);
@@ -124,7 +123,7 @@
 
   const baseSalida = $derived(
     resultado
-      ? `${nombreArchivoSeguro(resultado.nombreArchivo).replace(/\.[^.]+$/, '')}-${abreviarId(resultado.idAnalisis)}`
+      ? nombreArchivoSeguro(resultado.nombreArchivo).replace(/\.[^.]+$/, '')
       : 'audiotrace'
   );
   const nombreSalida = $derived(
@@ -336,8 +335,6 @@
             <p class="truncate text-headline-sm font-semibold text-on-surface">{resultado.nombreArchivo}</p>
             <p class="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-body-sm text-on-surface-variant">
               <span>{formatearFecha(resultado.creadoEn)}</span>
-              <span class="h-1 w-1 rounded-full bg-outline-variant" aria-hidden="true"></span>
-              <span class="font-code text-code-sm">ID {abreviarId(resultado.idAnalisis)}</span>
               {#if resultado.metadatos?.formato}
                 <span class="h-1 w-1 rounded-full bg-outline-variant" aria-hidden="true"></span>
                 <span class="font-code text-code-sm">{resultado.metadatos.formato}</span>
@@ -474,7 +471,7 @@
               maxlength={120}
               autocomplete="off"
               bind:value={tituloReporte}
-              placeholder="Resultados del cotejo acústico"
+              placeholder="Resultados del análisis"
             />
           </div>
 

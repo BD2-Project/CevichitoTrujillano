@@ -9,7 +9,7 @@
   const migas: Record<NombreRuta, { grupo: string; titulo: string; icono: string }> = {
     nuevo: { grupo: 'Análisis', titulo: ETIQUETAS_NAVEGACION.nuevo, icono: 'add_circle' },
     progreso: { grupo: 'Análisis', titulo: 'Pipeline en progreso', icono: 'model_training' },
-    resultados: { grupo: 'Expediente', titulo: 'Resultados del cotejo', icono: 'analytics' },
+    resultados: { grupo: 'Expediente', titulo: 'Resultados del análisis', icono: 'analytics' },
     historial: { grupo: 'Registro', titulo: ETIQUETAS_NAVEGACION.historial, icono: 'history' },
     catalogo: { grupo: 'Referencias', titulo: ETIQUETAS_NAVEGACION.catalogo, icono: 'library_music' },
     error: { grupo: 'Diagnóstico', titulo: 'Fallo del análisis', icono: 'report' },
@@ -20,9 +20,7 @@
   const detalle = $derived(
     enrutador.actual.nombre === 'error'
       ? `HTTP ${enrutador.actual.parametros.codigo ?? '500'}`
-      : enrutador.actual.nombre === 'resultados'
-        ? enrutador.actual.parametros.id?.slice(0, 8).toUpperCase()
-        : null
+      : null
   );
 </script>
 

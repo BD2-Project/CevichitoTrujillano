@@ -4,7 +4,6 @@
   import { enlace } from '../../navegacion/enrutador.svelte';
   import { exportarCsvResultado } from '../../servicios/exportacion';
   import {
-    copiarTexto,
     etiquetaEstado,
     formatearDuracion,
     formatearFecha,
@@ -12,7 +11,6 @@
   } from '../../utilidades/formato';
   import Boton from '../../componentes/ui/Boton.svelte';
   import Insignia from '../../componentes/ui/Insignia.svelte';
-  import { etiquetaOrigen, tonoOrigen } from './utiles';
 
   let { resultado }: { resultado: ResultadoAnalisis } = $props();
 
@@ -34,18 +32,6 @@
     );
   }
 
-  async function copiarId() {
-    const copiado = await copiarTexto(resultado.idAnalisis);
-    if (copiado) {
-      app.notificar('exito', 'ID copiado', resultado.idAnalisis);
-    } else {
-      app.notificar(
-        'advertencia',
-        'No se pudo copiar el ID',
-        'Selecciona el identificador completo y cópialo manualmente.'
-      );
-    }
-  }
 </script>
 
 <section
@@ -88,25 +74,8 @@
         <Insignia tono={tonoEstado(estado)} icono={estado === 'con-evidencia' ? 'verified' : 'search_off'} punto>
           {etiquetaEstado(estado)}
         </Insignia>
-        <Insignia tono={tonoOrigen(resultado.origen)} icono="database">
-          {etiquetaOrigen(resultado.origen)}
-        </Insignia>
       </div>
 
-      <div class="flex flex-wrap items-center gap-2 pt-1">
-        <span class="text-label-sm font-semibold uppercase tracking-[0.05em] text-on-surface-variant">ID del expediente</span>
-        <div class="flex min-w-0 max-w-full items-center gap-1 rounded-lg border border-outline-variant/50 bg-surface-container-low px-2 py-1">
-          <code class="min-w-0 break-all font-code text-code-sm text-on-surface">{resultado.idAnalisis}</code>
-          <Boton
-            variante="fantasma"
-            tamanio="icono"
-            icono="content_copy"
-            titulo="Copiar el ID completo del expediente"
-            clase="h-7 w-7 shrink-0 text-on-surface-variant"
-            onclick={copiarId}
-          />
-        </div>
-      </div>
     </div>
 
     <div class="flex shrink-0 flex-wrap items-center gap-2 xl:max-w-xs xl:justify-end">

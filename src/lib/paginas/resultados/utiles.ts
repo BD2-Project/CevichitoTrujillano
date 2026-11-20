@@ -1,4 +1,4 @@
-import type { Coincidencia, OrigenDato, Tono } from '../../datos/tipos';
+import type { Coincidencia } from '../../datos/tipos';
 import { formatearNumero } from '../../utilidades/formato';
 import type { OrdenCoincidencias } from './tipos';
 
@@ -6,26 +6,6 @@ export interface CoincidenciaIndexada {
   /** Posición original dentro de `resultado.coincidencias`. */
   indice: number;
   coincidencia: Coincidencia;
-}
-
-const ETIQUETAS_ORIGEN: Record<OrigenDato, string> = {
-  persistido: 'Persistido en SoupDB',
-  local: 'Carga local',
-  demo: 'Datos de demostración'
-};
-
-const TONOS_ORIGEN: Record<OrigenDato, Tono> = {
-  persistido: 'info',
-  local: 'primario',
-  demo: 'terciario'
-};
-
-export function etiquetaOrigen(origen?: OrigenDato): string {
-  return origen ? ETIQUETAS_ORIGEN[origen] : 'Origen no indicado';
-}
-
-export function tonoOrigen(origen?: OrigenDato): Tono {
-  return origen ? TONOS_ORIGEN[origen] : 'neutro';
 }
 
 /** Desplazamiento de alineación con signo explícito y separador decimal local. */

@@ -3,12 +3,7 @@
   import { app } from '../estado/aplicacion.svelte';
   import { enlace, enrutador } from '../navegacion/enrutador.svelte';
   import { cliente } from '../servicios';
-  import {
-    COEFICIENTES_MFCC,
-    DIMENSION_VECTOR,
-    NOMBRE_INDICE,
-    SEGUNDOS_POR_SEGMENTO
-  } from '../datos/constantes';
+  import { COEFICIENTES_MFCC, SEGUNDOS_POR_SEGMENTO } from '../datos/constantes';
   import type { CancionCatalogo, DetalleCancion } from '../datos/tipos';
   import EncabezadoPagina from '../componentes/ui/EncabezadoPagina.svelte';
   import TarjetaMetrica from '../componentes/ui/TarjetaMetrica.svelte';
@@ -17,11 +12,7 @@
   import FilaCatalogo from './catalogo/FilaCatalogo.svelte';
   import TarjetaCatalogo from './catalogo/TarjetaCatalogo.svelte';
   import PanelDetalle from './catalogo/PanelDetalle.svelte';
-  import {
-    formatearDuracion,
-    formatearNumero,
-    normalizarBusqueda
-  } from '../utilidades/formato';
+  import { formatearNumero, normalizarBusqueda } from '../utilidades/formato';
 
   type Vista = 'lista' | 'cuadricula';
   type OrdenCatalogo = 'titulo' | 'artista' | 'duracion' | 'segmentos' | 'anio';
@@ -52,9 +43,6 @@
   const esDemo = $derived(app.estadoConexion.modo === 'demo');
 
   const cargandoCatalogo = $derived(app.cargandoInicial && app.catalogo.length === 0);
-  const duracionTotal = $derived(
-    app.catalogo.reduce((total, cancion) => total + cancion.duracionSegundos, 0)
-  );
 
   const colecciones = $derived.by(() => {
     const conteo = new Map<string, number>();
@@ -203,28 +191,21 @@
 <svelte:window onkeydown={alTeclear} />
 
 <div class="space-y-4">
-  <div class="flex flex-wrap items-center justify-between gap-2">
-    <span class="inline-flex items-center gap-2 rounded-full bg-surface-container px-3 py-1 font-code text-code-sm font-medium text-primary">
-      <span class="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" aria-hidden="true"></span>
-      ÍNDICE DE REFERENCIA {NOMBRE_INDICE} · {DIMENSION_VECTOR} DIMS · EUCLIDIANA
+  <div class="flex flex-wrap items-center gap-x-2 gap-y-1 font-code text-code-sm text-on-surface-variant">
+    <span>OBRAS: <strong class="tabular text-on-surface">{cargandoCatalogo ? '—' : formatearNumero(app.catalogo.length)}</strong></span>
+    <span class="h-1 w-1 rounded-full bg-outline-variant" aria-hidden="true"></span>
+    <span>SEGMENTOS: <strong class="tabular text-on-surface">{cargandoCatalogo ? '—' : formatearNumero(app.totalSegmentosCatalogo)}</strong></span>
+    <span class="h-1 w-1 rounded-full bg-outline-variant" aria-hidden="true"></span>
+    <span class="inline-flex items-center gap-1 text-secondary">
+      <span class="h-1.5 w-1.5 rounded-full bg-secondary" aria-hidden="true"></span>
+      {esDemo ? 'DEMOSTRACIÓN LOCAL' : app.estadoConexion.conectado ? 'CATÁLOGO DE SOUPDB' : 'SIN CONEXIÓN'}
     </span>
-    <div class="flex flex-wrap items-center gap-x-2 gap-y-1 font-code text-code-sm text-on-surface-variant">
-      <span>OBRAS: <strong class="tabular text-on-surface">{cargandoCatalogo ? '—' : formatearNumero(app.catalogo.length)}</strong></span>
-      <span class="h-1 w-1 rounded-full bg-outline-variant" aria-hidden="true"></span>
-      <span>SEGMENTOS: <strong class="tabular text-on-surface">{cargandoCatalogo ? '—' : formatearNumero(app.totalSegmentosCatalogo)}</strong></span>
-      <span class="h-1 w-1 rounded-full bg-outline-variant" aria-hidden="true"></span>
-      <span class="inline-flex items-center gap-1 text-secondary">
-        <span class="h-1.5 w-1.5 rounded-full bg-secondary" aria-hidden="true"></span>
-        {esDemo ? 'DEMOSTRACIÓN LOCAL' : app.estadoConexion.conectado ? 'CATÁLOGO DE SOUPDB' : 'SIN CONEXIÓN'}
-      </span>
-    </div>
   </div>
 
   <EncabezadoPagina
     etiqueta="Base de datos acústica"
     titulo="Catálogo de referencia acústica"
     icono="library_music"
-    descripcion="Explora las obras que sirven de referencia al cotejo. Cada pista se segmenta en ventanas de 5 s para extraer 20 MFCC y un vector de 128 dimensiones; solo las referencias del catálogo participan en el cotejo."
   >
     {#snippet acciones()}
       {#if esDemo}
@@ -254,8 +235,8 @@
   {#if cargandoCatalogo}
     <section class="space-y-3" aria-busy="true" aria-live="polite">
       <span class="sr-only">Cargando el catálogo de referencia acústica…</span>
-      <div class="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
-        {#each [0, 1, 2, 3, 4] as marcador (marcador)}
+      <div class="grid gap-3 sm:grid-cols-3">
+        {#each [0, 1, 2] as marcador (marcador)}
           <div class="h-[104px] animate-pulse rounded-xl border border-outline-variant/40 bg-surface-container-low"></div>
         {/each}
       </div>
@@ -263,7 +244,7 @@
       <div class="h-[320px] animate-pulse rounded-xl border border-outline-variant/40 bg-surface-container-low"></div>
     </section>
   {:else}
-    <section class="grid gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5" aria-label="Métricas del catálogo">
+    <section class="grid gap-3 sm:grid-cols-3" aria-label="Métricas del catálogo">
       <TarjetaMetrica
         etiqueta="Obras indexadas"
         valor={formatearNumero(app.catalogo.length)}
@@ -281,29 +262,12 @@
         tono="info"
       />
       <TarjetaMetrica
-        etiqueta="Duración total"
-        valor={formatearDuracion(duracionTotal, true)}
-        unidad="hh:mm:ss"
-        detalle="Suma de las duraciones declaradas"
-        icono="schedule"
-        tono="terciario"
-        mono
-      />
-      <TarjetaMetrica
         etiqueta="Colecciones"
         valor={formatearNumero(colecciones.length)}
         unidad={colecciones.length === 1 ? 'agrupación' : 'agrupaciones'}
         detalle={colecciones.length === 0 ? 'Sin colecciones declaradas' : colecciones.map((item) => item.nombre).join(' · ')}
         icono="folder_special"
         tono="neutro"
-      />
-      <TarjetaMetrica
-        etiqueta="Actualizado"
-        valor={esDemo ? 'datos locales' : 'SoupDB'}
-        detalle={esDemo ? 'Sin marca de indexación remota' : 'Sin fecha de indexación expuesta'}
-        icono="database"
-        tono="neutro"
-        mono
       />
     </section>
 
@@ -585,30 +549,5 @@
       </section>
     </div>
 
-    <section class="rounded-xl border border-outline-variant/50 bg-surface-container-low/50 p-3" aria-label="Nota técnica del cotejo acústico">
-      <div class="flex items-start gap-2.5">
-        <span class="material-symbols-outlined mt-0.5 text-[19px] text-tertiary" aria-hidden="true">memory</span>
-        <div class="min-w-0 space-y-1.5">
-          <h2 class="text-label-md font-semibold text-on-surface">Contrato del cotejo</h2>
-          <p class="text-body-sm leading-relaxed text-on-surface-variant">
-            El pipeline segmenta el audio consultado en ventanas de {SEGUNDOS_POR_SEGMENTO} s,
-            extrae {COEFICIENTES_MFCC} MFCC por ventana y consulta un índice {NOMBRE_INDICE} de
-            vectores de {DIMENSION_VECTOR} dimensiones con distancia euclidiana y
-            k vecinos por consulta, según la configuración del analizador.
-          </p>
-          <div class="flex flex-wrap gap-1.5">
-            {#each [`${NOMBRE_INDICE}`, `${DIMENSION_VECTOR} dims`, `${COEFICIENTES_MFCC} MFCC`, `${SEGUNDOS_POR_SEGMENTO} s / ventana`, 'euclidiana', 'k vecinos'] as chip (chip)}
-              <span class="rounded border border-outline-variant/50 bg-surface-container-lowest px-1.5 py-0.5 font-code text-code-sm text-on-surface-variant">{chip}</span>
-            {/each}
-          </div>
-          <p class="text-body-sm font-medium text-on-surface">
-            Solo las referencias del catálogo participan en el cotejo.
-          </p>
-          <p class="text-body-sm text-on-surface-variant">
-            {esDemo ? 'En esta demostración el catálogo es local: estos valores describen el contrato del pipeline, no una indexación ejecutada en el navegador.' : 'El pipeline de extracción y el índice pertenecen al servicio de SoupDB. Los resultados expresan similitud técnica, sin un umbral legal.'}
-          </p>
-        </div>
-      </div>
-    </section>
   {/if}
 </div>

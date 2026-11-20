@@ -1,5 +1,9 @@
+<script lang="ts">
+  const mensaje = 'Cargando el expediente…';
+</script>
+
 <div class="animate-pulse space-y-4" aria-busy="true" aria-live="polite">
-  <span class="sr-only">Cargando el expediente…</span>
+  <span class="sr-only">{mensaje}</span>
 
   <div class="rounded-xl border border-outline-variant/50 bg-surface-container-lowest p-4 shadow-panel sm:p-5">
     <div class="h-3 w-40 rounded bg-surface-container-high"></div>

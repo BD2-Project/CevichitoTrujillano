@@ -5,10 +5,9 @@
   import { app } from '../estado/aplicacion.svelte';
   import { enlace } from '../navegacion/enrutador.svelte';
   import BarraFiltros from './historial/BarraFiltros.svelte';
-  import MetricasHistorial from './historial/MetricasHistorial.svelte';
   import MenuExportar from './historial/MenuExportar.svelte';
   import TablaHistorial from './historial/TablaHistorial.svelte';
-  import type { FiltrosHistorialUI, MetricasHistorial as DatosMetricas } from './historial/tipos';
+  import type { FiltrosHistorialUI } from './historial/tipos';
 
   const filtrosIniciales: FiltrosHistorialUI = {
     busqueda: '', estado: 'todos', rango: 'todo', similitudMinima: 0, orden: 'recientes'
@@ -22,28 +21,6 @@
     conEvidencia: app.analisis.filter((item) => item.estado === 'con-evidencia').length,
     sinEvidencia: app.analisis.filter((item) => item.estado === 'sin-evidencia').length,
     errores: app.analisis.filter((item) => item.estado === 'error').length
-  });
-
-  const metricas = $derived.by((): DatosMetricas => {
-    const items = app.analisis;
-    const similitudes = items.flatMap((item) => item.mejorSimilitud === null ? [] : [item.mejorSimilitud]);
-    const duraciones = items.flatMap((item) => item.duracionArchivoSegundos === undefined ? [] : [item.duracionArchivoSegundos]);
-    const duracionTotal = duraciones.reduce((total, valor) => total + valor, 0);
-    return {
-      total: items.length,
-      conEvidencia: conteoEstados.conEvidencia,
-      sinEvidencia: conteoEstados.sinEvidencia,
-      errores: items.filter((item) => item.estado === 'error').length,
-      demo: items.filter((item) => item.origen === 'demo').length,
-      coincidencias: items.reduce((total, item) => total + item.cantidadCoincidencias, 0),
-      canciones: items.reduce((total, item) => total + item.cantidadCanciones, 0),
-      mejorGlobal: similitudes.length ? Math.max(...similitudes) : null,
-      mediaMejor: similitudes.length ? similitudes.reduce((total, valor) => total + valor, 0) / similitudes.length : null,
-      duracionTotal,
-      duracionMedia: duraciones.length ? duracionTotal / duraciones.length : null,
-      tamanoTotal: items.reduce((total, item) => total + (item.tamanoBytes ?? 0), 0),
-      formatos: [...new Set(items.flatMap((item) => item.formato ? [item.formato.toUpperCase()] : []))]
-    };
   });
 
   const filtrados = $derived.by(() => {
@@ -93,7 +70,6 @@
     {/snippet}
   </EncabezadoPagina>
 
-  <MetricasHistorial {metricas} />
   <BarraFiltros {filtros} total={app.analisis.length} visibles={filtrados.length} {conteoEstados} onLimpiar={limpiarFiltros} />
 
   {#if app.cargandoInicial}

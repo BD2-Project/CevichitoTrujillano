@@ -13,23 +13,6 @@ export interface FiltrosHistorialUI {
   orden: OrdenFiltro;
 }
 
-/** Métricas reales derivadas de `app.analisis`. */
-export interface MetricasHistorial {
-  total: number;
-  conEvidencia: number;
-  sinEvidencia: number;
-  errores: number;
-  demo: number;
-  coincidencias: number;
-  canciones: number;
-  mejorGlobal: number | null;
-  mediaMejor: number | null;
-  duracionTotal: number;
-  duracionMedia: number | null;
-  tamanoTotal: number;
-  formatos: string[];
-}
-
 export interface ConteoEstados {
   todos: number;
   conEvidencia: number;

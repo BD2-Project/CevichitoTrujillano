@@ -253,7 +253,6 @@
           duracionSegundos={metadatos.duracionSegundos}
           variante="consola"
         />
-        <p class="mt-2 text-body-sm text-on-surface-variant">Reproducción del archivo local · onda decorativa simulada.</p>
       </div>
     {:else}
       <div class="mt-4 overflow-hidden rounded-xl bg-[#0f172a] p-3 text-white shadow-md">
@@ -275,9 +274,22 @@
           {/each}
         </div>
         <p class="mt-2 text-body-sm leading-relaxed text-white/55">
-          Carga un archivo para reproducirlo aquí. {app.estadoConexion.modo === 'demo' ? 'El análisis de demostración no envía tu audio a SoupDB.' : 'Al iniciar el análisis, la muestra se enviará al servicio de SoupDB.'}
+          Carga un archivo para reproducirlo aquí.
         </p>
       </div>
     {/if}
+    <div class="mt-4 flex justify-end">
+      <Boton
+        variante="primario"
+        tamanio="lg"
+        icono="model_training"
+        clase="w-full sm:w-auto"
+        cargando={app.trabajoActivo}
+        deshabilitado={!app.archivo || app.catalogo.length === 0 || cargandoMetadatos || app.cargandoInicial}
+        onclick={() => void app.iniciarAnalisis()}
+      >
+        Iniciar análisis
+      </Boton>
+    </div>
   </section>
 </div>

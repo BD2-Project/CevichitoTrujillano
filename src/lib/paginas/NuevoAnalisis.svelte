@@ -2,8 +2,6 @@
   import EncabezadoPagina from '../componentes/ui/EncabezadoPagina.svelte';
   import Insignia from '../componentes/ui/Insignia.svelte';
   import ZonaCarga from './nuevo/ZonaCarga.svelte';
-  import PanelConfiguracion from './nuevo/PanelConfiguracion.svelte';
-  import ComoFunciona from './nuevo/ComoFunciona.svelte';
   import { app } from '../estado/aplicacion.svelte';
   import { enlace } from '../navegacion/enrutador.svelte';
   import { formatearNumero } from '../utilidades/formato';
@@ -24,14 +22,17 @@
 
 <div class="space-y-6">
   <EncabezadoPagina
-    etiqueta="Procesamiento espectral no destructivo"
+    etiqueta="Procesamiento espectral"
     titulo="Encuentra coincidencias en tu audio"
-    descripcion="Compara una muestra contra el catálogo de referencia. Explora similitudes acústicas y tramos alineados como evidencia técnica para revisión humana."
+    descripcion="Compara una muestra con el catálogo de referencia y explora las similitudes acústicas."
   />
-  <section class="panel flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between" aria-label="Catálogo de referencia objetivo">
+  <section class="panel flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between" aria-labelledby="referencias-acusticas-titulo">
     <div class="flex items-center gap-3">
       <span class="material-symbols-outlined rounded-xl bg-primary/10 p-3 text-[28px] text-primary" aria-hidden="true">library_music</span>
-      <div><p class="etiqueta-micro text-on-surface-variant">Catálogo de referencia objetivo</p><h2 class="mt-1 text-headline-md font-semibold">Referencias acústicas de SoupDB</h2><p class="mt-1 font-code text-code-sm text-on-surface-variant">{formatearNumero(app.catalogo.length)} canciones · {formatearNumero(app.totalSegmentosCatalogo)} segmentos</p></div>
+      <div>
+        <h2 id="referencias-acusticas-titulo" class="text-headline-md font-semibold">Referencias acústicas</h2>
+        <p class="mt-1 font-code text-code-sm text-on-surface-variant">{formatearNumero(app.catalogo.length)} canciones · {formatearNumero(app.totalSegmentosCatalogo)} segmentos</p>
+      </div>
     </div>
     <div class="flex flex-wrap items-center gap-3">
       {#if app.estadoConexion.etiqueta}
@@ -43,12 +44,9 @@
   {#if app.trabajoActivo}
     <div class="rounded-xl border border-primary/25 bg-primary/5 p-4 text-body-md" role="status">Ya hay un análisis en curso. <a class="font-semibold text-primary underline" href={enlace('progreso')}>Volver al seguimiento</a></div>
   {/if}
-  <div class="grid items-start gap-6 xl:grid-cols-[minmax(0,2fr)_minmax(300px,1fr)]">
-    <div class="space-y-5">
-      <ZonaCarga {cargandoMetadatos} onSeleccionar={seleccionarArchivo} />
-      <div class="flex gap-3 rounded-xl bg-surface-container-low p-4 text-body-sm leading-relaxed text-on-surface-variant"><span class="material-symbols-outlined text-secondary" aria-hidden="true">info</span><p>El resultado expresa similitud acústica en [0, 1]. No determina infracción ni aplica un umbral legal. {app.estadoConexion.modo === 'demo' ? 'Los audios de demostración no incluyen grabaciones del catálogo.' : 'Las referencias de audio se sirven desde el catálogo de SoupDB.'}</p></div>
-    </div>
-    <PanelConfiguracion {cargandoMetadatos} />
+  <div class="flex gap-3 rounded-xl bg-surface-container-low p-4 text-body-sm leading-relaxed text-on-surface-variant">
+    <span class="material-symbols-outlined text-secondary" aria-hidden="true">info</span>
+    <p>El análisis compara segmentos de audio de hasta 5 segundos. La puntuación de cada coincidencia resume la similitud de los segmentos alineados en una escala de 0 a 1. Cuanto más cerca de 1, mayor es la similitud. El resultado no determina una infracción.</p>
   </div>
-  <ComoFunciona />
+  <ZonaCarga {cargandoMetadatos} onSeleccionar={seleccionarArchivo} />
 </div>

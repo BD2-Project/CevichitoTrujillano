@@ -203,7 +203,6 @@
     </header>
 
     <div class="space-y-4 p-4 sm:p-5">
-      <p class="text-body-sm text-on-surface-variant">Las ondas son representaciones esquemáticas; no proceden de la extracción de amplitudes. Los controles reproducen el archivo real cuando está disponible.</p>
       <div class="grid gap-3 lg:grid-cols-2 lg:items-stretch">
         <article class="flex h-full flex-col gap-3 rounded-xl border border-outline-variant/50 bg-surface-container-low p-3 shadow-panel">
           <header class="flex items-start justify-between gap-2">
@@ -263,10 +262,6 @@
           {/if}
 
           <div class="mt-auto flex flex-wrap items-center justify-between gap-2">
-            <span class="inline-flex items-center gap-1 text-label-sm text-on-surface-variant">
-              <span class="material-symbols-outlined text-[14px]" aria-hidden="true">security</span>
-              {urlConsulta ? 'Audio local del expediente' : 'Representación esquemática del tramo'}
-            </span>
             <Insignia tono={tonoSimilitud(coincidencia.similitud)} icono="graphic_eq">
               {etiquetaSimilitud(coincidencia.similitud)}
             </Insignia>
@@ -326,9 +321,6 @@
             </span>
           </div>
 
-          <p class="text-body-sm text-on-surface-variant">
-            {urlReferencia ? 'Reproducción del audio de referencia servido por SoupDB. La onda es esquemática y sirve como guía de alineación.' : 'Esta referencia no incluye audio reproducible. La forma de onda se deriva del identificador de la canción y sirve solo como guía de alineación.'}
-          </p>
         </article>
       </div>
 

@@ -15,13 +15,7 @@
 
   let { resultado }: { resultado: ResultadoAnalisis } = $props();
 
-  const canciones = $derived.by(() => {
-    const mapa = new Map<number, string>();
-    for (const coincidencia of resultado.coincidencias) {
-      if (!mapa.has(coincidencia.idCancion)) mapa.set(coincidencia.idCancion, coincidencia.titulo);
-    }
-    return [...mapa.values()];
-  });
+  const cantidadCanciones = $derived(new Set(resultado.coincidencias.map((coincidencia) => coincidencia.idCancion)).size);
 
   const mejor = $derived(
     resultado.coincidencias.reduce<number | null>(
@@ -36,11 +30,6 @@
   const duracion = $derived(resultado.metadatos?.duracionSegundos ?? null);
   const cobertura = $derived(duracion && duracion > 0 ? Math.min(1, cubierto / duracion) : null);
 
-  const nombres = $derived(
-    canciones.length === 0
-      ? 'Sin canciones de referencia'
-      : `${canciones.slice(0, 3).join(' · ')}${canciones.length > 3 ? ` +${canciones.length - 3}` : ''}`
-  );
 </script>
 
 {#snippet pieMejor()}
@@ -76,9 +65,8 @@
 
     <TarjetaMetrica
       etiqueta="Canciones de referencia"
-      valor={canciones.length}
-      unidad={canciones.length === 1 ? 'obra del catálogo' : 'obras del catálogo'}
-      detalle={nombres}
+      valor={cantidadCanciones}
+      unidad={cantidadCanciones === 1 ? 'obra del catálogo' : 'obras del catálogo'}
       icono="library_music"
       tono="terciario"
       mono

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { enlace, enrutador } from '../../navegacion/enrutador.svelte';
-  import { NOMBRE_APLICACION, VERSION_ESQUEMA } from '../../datos/constantes';
+  import { NOMBRE_APLICACION } from '../../datos/constantes';
 
   let {
     abierto = false,
@@ -100,7 +100,7 @@
 
   </nav>
 
-  <div class="flex items-center justify-between gap-2 border-t border-outline-variant/50 px-4 py-3 text-[10px] text-on-surface-variant">
+  <div class="flex items-center border-t border-outline-variant/50 px-4 py-3 text-[10px] text-on-surface-variant">
     <button
       type="button"
       class="enlace-foco rounded font-medium transition-colors hover:text-on-surface"
@@ -108,6 +108,5 @@
     >
       Acerca de
     </button>
-    <span class="font-code">esquema {VERSION_ESQUEMA}</span>
   </div>
 </aside>

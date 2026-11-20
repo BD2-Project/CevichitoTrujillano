@@ -2,7 +2,6 @@
   import { onMount } from 'svelte';
   import { app } from './lib/estado/aplicacion.svelte';
   import { enrutador, enlace } from './lib/navegacion/enrutador.svelte';
-  import { NOMBRE_APLICACION, VERSION_ESQUEMA } from './lib/datos/constantes';
   import BarraLateral from './lib/componentes/shell/BarraLateral.svelte';
   import BarraSuperior from './lib/componentes/shell/BarraSuperior.svelte';
   import Notificaciones from './lib/componentes/shell/Notificaciones.svelte';
@@ -89,17 +88,6 @@
       </div>
     </main>
 
-    <footer class="border-t border-outline-variant/50 bg-surface-container-lowest/60">
-      <div class="mx-auto flex w-full max-w-[1500px] flex-col gap-2 px-4 py-3 text-body-sm text-on-surface-variant sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-        <p class="flex items-center gap-1.5">
-          <span class="material-symbols-outlined text-[15px] text-secondary" aria-hidden="true">verified_user</span>
-          <span>{NOMBRE_APLICACION} · La similitud es evidencia técnica, no un dictamen legal.</span>
-        </p>
-        <p class="font-code text-[11px]">
-          5 s por segmento · 20 MFCC · 128 dimensiones
-        </p>
-      </div>
-    </footer>
   </div>
 
   <Notificaciones />

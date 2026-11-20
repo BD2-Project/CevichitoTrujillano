@@ -59,11 +59,7 @@
     </div>
   </dl>
 
-  <div class="mt-auto flex items-center justify-between gap-2 border-t border-outline-variant/40 pt-2">
+  <div class="mt-auto border-t border-outline-variant/40 pt-2">
     <span class="font-code text-code-sm text-on-surface-variant">REF-{String(cancion.idCancion).padStart(3, '0')}</span>
-    <span class="inline-flex items-center gap-1 text-label-md font-medium text-primary">
-      Ver segmentos
-      <span class="material-symbols-outlined text-[16px]" aria-hidden="true">arrow_forward</span>
-    </span>
   </div>
 </button>

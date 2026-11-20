@@ -27,22 +27,17 @@
     <div class="flex items-center gap-2.5">
       <MiniEspectro semilla={`${cancion.titulo}${cancion.idCancion}`} />
       <div class="min-w-0">
-        <div class="flex items-center gap-1.5">
-          <button
-            type="button"
-            class="enlace-foco max-w-[280px] truncate rounded text-left text-headline-sm font-semibold text-on-surface transition-colors group-hover:text-primary"
-            aria-pressed={seleccionada}
-            onclick={(evento) => {
-              evento.stopPropagation();
-              onSeleccionar(cancion);
-            }}
-          >
-            {cancion.titulo}
-          </button>
-          {#if seleccionada}
-            <span class="material-symbols-outlined text-[15px] text-primary" aria-hidden="true">chevron_right</span>
-          {/if}
-        </div>
+        <button
+          type="button"
+          class="enlace-foco block max-w-[280px] truncate rounded text-left text-headline-sm font-semibold text-on-surface transition-colors group-hover:text-primary"
+          aria-pressed={seleccionada}
+          onclick={(evento) => {
+            evento.stopPropagation();
+            onSeleccionar(cancion);
+          }}
+        >
+          {cancion.titulo}
+        </button>
         <span class="block max-w-[280px] truncate text-body-sm text-on-surface-variant">{cancion.artista}</span>
       </div>
     </div>
@@ -74,25 +69,11 @@
     <span class="font-code text-code-sm tabular text-on-surface">{cancion.anio > 0 ? cancion.anio : 'No declarado'}</span>
   </td>
 
-  <td class="px-3 py-2.5">
+  <td class="px-3 py-2.5 pr-4">
     <span class="inline-flex items-center gap-1 whitespace-nowrap text-body-sm text-on-surface-variant">
       <span class="material-symbols-outlined text-[14px]" aria-hidden="true">copyright</span>
       {cancion.licencia ?? 'Sin licencia declarada'}
     </span>
   </td>
 
-  <td class="px-3 py-2.5 pr-4 text-right">
-    <button
-      type="button"
-      class="enlace-foco inline-flex h-8 w-8 items-center justify-center rounded-lg bg-surface-container-low text-on-surface-variant transition-colors hover:bg-primary hover:text-on-primary"
-      title={`Ver detalle de ${cancion.titulo}`}
-      aria-label={`Ver detalle de ${cancion.titulo}`}
-      onclick={(evento) => {
-        evento.stopPropagation();
-        onSeleccionar(cancion);
-      }}
-    >
-      <span class="material-symbols-outlined text-[18px]" aria-hidden="true">chevron_right</span>
-    </button>
-  </td>
 </tr>

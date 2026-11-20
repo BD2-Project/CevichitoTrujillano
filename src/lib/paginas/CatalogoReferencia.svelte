@@ -3,7 +3,6 @@
   import { app } from '../estado/aplicacion.svelte';
   import { enlace, enrutador } from '../navegacion/enrutador.svelte';
   import { cliente } from '../servicios';
-  import { COEFICIENTES_MFCC, SEGUNDOS_POR_SEGMENTO } from '../datos/constantes';
   import type { CancionCatalogo, DetalleCancion } from '../datos/tipos';
   import EncabezadoPagina from '../componentes/ui/EncabezadoPagina.svelte';
   import TarjetaMetrica from '../componentes/ui/TarjetaMetrica.svelte';
@@ -251,7 +250,6 @@
         etiqueta="Segmentos"
         valor={formatearNumero(app.totalSegmentosCatalogo)}
         unidad="ventanas"
-        detalle={`Ventanas de ${SEGUNDOS_POR_SEGMENTO} s · ${COEFICIENTES_MFCC} MFCC`}
         icono="segment"
         tono="info"
       />
@@ -472,7 +470,6 @@
                   <th scope="col" class="px-3 py-2 font-semibold">Género</th>
                   <th scope="col" class="px-3 py-2 font-semibold">Año</th>
                   <th scope="col" class="px-3 py-2 font-semibold">Licencia</th>
-                  <th scope="col" class="px-3 py-2 pr-4 text-right font-semibold"><span class="sr-only">Acciones</span></th>
                 </tr>
               </thead>
               <tbody>

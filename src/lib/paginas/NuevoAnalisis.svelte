@@ -44,9 +44,9 @@
   {#if app.trabajoActivo}
     <div class="rounded-xl border border-primary/25 bg-primary/5 p-4 text-body-md" role="status">Ya hay un análisis en curso. <a class="font-semibold text-primary underline" href={enlace('progreso')}>Volver al seguimiento</a></div>
   {/if}
+  <ZonaCarga {cargandoMetadatos} onSeleccionar={seleccionarArchivo} />
   <div class="flex gap-3 rounded-xl bg-surface-container-low p-4 text-body-sm leading-relaxed text-on-surface-variant">
     <span class="material-symbols-outlined text-secondary" aria-hidden="true">info</span>
     <p>El análisis compara segmentos de audio de hasta 5 segundos. La puntuación de cada coincidencia resume la similitud de los segmentos alineados en una escala de 0 a 1. Cuanto más cerca de 1, mayor es la similitud. El resultado no determina una infracción.</p>
   </div>
-  <ZonaCarga {cargandoMetadatos} onSeleccionar={seleccionarArchivo} />
 </div>

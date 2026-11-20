@@ -218,7 +218,9 @@
           max="1"
           step="0.01"
           value={volumen}
-          class="h-1.5 w-20 cursor-pointer appearance-none rounded-full accent-primary"
+          class="enlace-foco control-volumen h-2 w-24 cursor-pointer appearance-none rounded-full"
+          class:pista-oscura={esConsola}
+          style:--nivel-volumen={`${volumen * 100}%`}
           aria-label="Volumen"
           oninput={(evento) => (volumen = Number((evento.currentTarget as HTMLInputElement).value))}
         />
@@ -233,3 +235,38 @@
     </p>
   {/if}
 </div>
+
+<style>
+  .control-volumen {
+    --volumen-activo: var(--color-primary);
+    --volumen-restante: var(--color-outline);
+    background: linear-gradient(
+      to right,
+      var(--volumen-activo) var(--nivel-volumen),
+      var(--volumen-restante) var(--nivel-volumen)
+    );
+  }
+
+  .pista-oscura {
+    --volumen-activo: var(--color-primary-fixed-dim);
+    --volumen-restante: rgb(255 255 255 / 45%);
+  }
+
+  .control-volumen::-webkit-slider-thumb {
+    appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid var(--volumen-activo);
+    border-radius: 50%;
+    background: white;
+  }
+
+  .control-volumen::-moz-range-thumb {
+    box-sizing: border-box;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid var(--volumen-activo);
+    border-radius: 50%;
+    background: white;
+  }
+</style>

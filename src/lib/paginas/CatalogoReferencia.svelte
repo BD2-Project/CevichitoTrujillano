@@ -31,7 +31,7 @@
   let anio = $state('todos');
   let orden = $state<OrdenCatalogo>('titulo');
   let vista = $state<Vista>('lista');
-  let limite = $state(TAMANO_PAGINA);
+  let pagina = $state(1);
 
   let seleccionadaId = $state<number | null>(null);
   let detalle = $state<DetalleCancion | null>(null);
@@ -75,7 +75,7 @@
 
   $effect(() => {
     void firmaFiltros;
-    limite = TAMANO_PAGINA;
+    pagina = 1;
   });
 
   const hayFiltros = $derived(
@@ -115,8 +115,10 @@
     });
   });
 
-  const visibles = $derived(referenciasFiltradas.slice(0, limite));
-  const restantes = $derived(Math.max(0, referenciasFiltradas.length - visibles.length));
+  const totalPaginas = $derived(Math.max(1, Math.ceil(referenciasFiltradas.length / TAMANO_PAGINA)));
+  const paginaActual = $derived(Math.min(pagina, totalPaginas));
+  const inicioPagina = $derived((paginaActual - 1) * TAMANO_PAGINA);
+  const visibles = $derived(referenciasFiltradas.slice(inicioPagina, inicioPagina + TAMANO_PAGINA));
   const resumenSeleccionado = $derived(
     app.catalogo.find((cancion) => cancion.idCancion === seleccionadaId) ?? null
   );
@@ -127,6 +129,11 @@
     coleccion = 'todas';
     anio = 'todos';
     orden = 'titulo';
+  }
+
+  function cambiarPagina(destino: number) {
+    pagina = destino;
+    cerrarDetalle();
   }
 
   async function cargarDetalle(idCancion: number): Promise<void> {
@@ -365,7 +372,7 @@
 
       <div class="mt-2.5 flex flex-wrap items-center justify-between gap-2 border-t border-outline-variant/50 pt-2.5">
         <p class="text-body-sm text-on-surface-variant" aria-live="polite">
-          Mostrando <strong class="text-on-surface">{formatearNumero(visibles.length)}</strong> de
+          Mostrando <strong class="text-on-surface">{#if paginaActual > 1}{formatearNumero(inicioPagina + 1)}–{/if}{formatearNumero(inicioPagina + visibles.length)}</strong> de
           <strong class="text-on-surface">{formatearNumero(referenciasFiltradas.length)}</strong>
           {referenciasFiltradas.length === 1 ? 'referencia' : 'referencias'}
           {#if hayFiltros}<span class="ml-1 text-primary">· filtros activos</span>{/if}
@@ -491,25 +498,19 @@
           </div>
         {/if}
 
-        <div class="flex flex-col gap-2 border-t border-outline-variant/50 bg-surface-container-low/40 px-4 py-2.5 sm:flex-row sm:items-center sm:justify-between">
-          <div class="flex flex-wrap items-center gap-2">
+        {#if totalPaginas > 1}
+          <nav class="flex flex-wrap items-center justify-between gap-2 border-t border-outline-variant/50 px-4 py-2.5" aria-label="Paginación del catálogo">
+            <Boton tamanio="sm" variante="secundario" deshabilitado={paginaActual === 1} onclick={() => cambiarPagina(paginaActual - 1)}>
+              Anterior
+            </Boton>
             <span class="text-body-sm text-on-surface-variant">
-              {formatearNumero(visibles.length)} de {formatearNumero(referenciasFiltradas.length)}
+              Página {formatearNumero(paginaActual)} de {formatearNumero(totalPaginas)}
             </span>
-            {#if restantes > 0}
-              <Boton
-                tamanio="sm"
-                variante="secundario"
-                icono="expand_more"
-                onclick={() => {
-                  limite += TAMANO_PAGINA;
-                }}
-              >
-                Cargar más ({formatearNumero(restantes)})
-              </Boton>
-            {/if}
-          </div>
-        </div>
+            <Boton tamanio="sm" variante="secundario" deshabilitado={paginaActual === totalPaginas} onclick={() => cambiarPagina(paginaActual + 1)}>
+              Siguiente
+            </Boton>
+          </nav>
+        {/if}
       </section>
     </div>
 

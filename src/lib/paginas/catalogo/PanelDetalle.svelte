@@ -5,7 +5,7 @@
   import Reproductor from '../../componentes/audio/Reproductor.svelte';
   import MiniEspectro from './MiniEspectro.svelte';
   import { picosSimulados } from '../../utilidades/audio';
-  import { formatearDuracion, formatearNumero } from '../../utilidades/formato';
+  import { formatearNumero } from '../../utilidades/formato';
 
   let {
     cancion,
@@ -71,10 +71,6 @@
 
   <dl class="grid grid-cols-2 gap-2 text-body-sm">
     <div class="rounded-lg border border-outline-variant/40 bg-surface-container-low/60 px-2 py-1.5">
-      <dt class="text-label-sm uppercase tracking-[0.05em] text-on-surface-variant">Duración</dt>
-      <dd class="font-code text-code-sm tabular text-on-surface">{formatearDuracion(cancion.duracionSegundos)}</dd>
-    </div>
-    <div class="rounded-lg border border-outline-variant/40 bg-surface-container-low/60 px-2 py-1.5">
       <dt class="text-label-sm uppercase tracking-[0.05em] text-on-surface-variant">Segmentos</dt>
       <dd class="font-code text-code-sm tabular text-on-surface">{formatearNumero(cancion.cantidadSegmentos)} × 5 s</dd>
     </div>
@@ -86,7 +82,7 @@
       <dt class="text-label-sm uppercase tracking-[0.05em] text-on-surface-variant">Año</dt>
       <dd class="font-code text-code-sm tabular text-on-surface">{cancion.anio > 0 ? cancion.anio : 'No declarado'}</dd>
     </div>
-    <div class="col-span-2 rounded-lg border border-outline-variant/40 bg-surface-container-low/60 px-2 py-1.5">
+    <div class="rounded-lg border border-outline-variant/40 bg-surface-container-low/60 px-2 py-1.5">
       <dt class="text-label-sm uppercase tracking-[0.05em] text-on-surface-variant">Licencia</dt>
       <dd class="text-on-surface">{cancion.licencia ?? 'Sin licencia declarada'}</dd>
     </div>

@@ -121,7 +121,7 @@
       `Solicitud: ${solicitud ?? 'No registrada'}`,
       `Etapa: ${etapa.etiqueta}`,
       `Fecha: ${fechaError ? formatearFecha(fechaError) : 'No registrada'}`,
-      `Conexión: ${app.estadoConexion.etiqueta} (${app.estadoConexion.modo}) · ${app.estadoConexion.detalle}`
+      `Conexión: ${app.estadoConexion.etiqueta || 'Conectado'} (${app.estadoConexion.modo}) · ${app.estadoConexion.detalle}`
     ];
     if (idSolicitud) lineas.splice(6, 0, `ID de solicitud: ${idSolicitud}`);
     lineas.push(
@@ -191,9 +191,11 @@
                 Solicitud <span class="font-code">{idSolicitud}</span>
               </span>
             {/if}
-            <Insignia tono={app.estadoConexion.conectado ? 'info' : 'advertencia'} punto>
-              {app.estadoConexion.etiqueta}
-            </Insignia>
+            {#if app.estadoConexion.etiqueta}
+              <Insignia tono={app.estadoConexion.conectado ? 'info' : 'advertencia'} punto>
+                {app.estadoConexion.etiqueta}
+              </Insignia>
+            {/if}
           </div>
 
           <div class="flex items-start gap-3">

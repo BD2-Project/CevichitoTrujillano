@@ -7,16 +7,20 @@
 </script>
 
 {#if compacto}
-  <Insignia tono={conexion.conectado ? 'info' : 'advertencia'} punto>
-    {conexion.etiqueta}
-  </Insignia>
+  {#if conexion.etiqueta}
+    <Insignia tono={conexion.conectado ? 'info' : 'advertencia'} punto>
+      {conexion.etiqueta}
+    </Insignia>
+  {/if}
 {:else}
   <div class="rounded-xl border border-outline-variant/50 bg-surface-container-low/70 p-3">
     <div class="flex items-center justify-between gap-2">
       <span class="text-label-sm font-semibold uppercase tracking-[0.05em] text-on-surface-variant">Conexión</span>
       <span class={['h-2 w-2 rounded-full', conexion.conectado ? 'bg-exito' : 'bg-advertencia'].join(' ')}></span>
     </div>
-    <p class="mt-1 text-label-md font-semibold text-on-surface">{conexion.etiqueta}</p>
+    {#if conexion.etiqueta}
+      <p class="mt-1 text-label-md font-semibold text-on-surface">{conexion.etiqueta}</p>
+    {/if}
     <p class="mt-0.5 text-body-sm leading-snug text-on-surface-variant">{conexion.detalle}</p>
     {#if !conexion.conectado}
       <button

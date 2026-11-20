@@ -34,7 +34,9 @@
       <div><p class="etiqueta-micro text-on-surface-variant">Catálogo de referencia objetivo</p><h2 class="mt-1 text-headline-md font-semibold">Referencias acústicas de SoupDB</h2><p class="mt-1 font-code text-code-sm text-on-surface-variant">{formatearNumero(app.catalogo.length)} canciones · {formatearNumero(app.totalSegmentosCatalogo)} segmentos</p></div>
     </div>
     <div class="flex flex-wrap items-center gap-3">
-      <Insignia tono={app.estadoConexion.conectado ? 'exito' : 'advertencia'} punto>{app.estadoConexion.etiqueta}</Insignia>
+      {#if app.estadoConexion.etiqueta}
+        <Insignia tono={app.estadoConexion.conectado ? 'exito' : 'advertencia'} punto>{app.estadoConexion.etiqueta}</Insignia>
+      {/if}
       <a class="enlace-foco rounded-lg bg-surface-container-low px-3 py-2 text-label-md font-medium text-primary" href={enlace('catalogo')}>Explorar catálogo →</a>
     </div>
   </section>

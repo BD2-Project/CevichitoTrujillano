@@ -477,7 +477,8 @@
           </div>
           <span class="inline-flex items-center gap-1.5 text-body-sm text-on-surface-variant">
             <span class="h-1.5 w-1.5 rounded-full bg-secondary" aria-hidden="true"></span>
-            {app.estadoConexion.etiqueta} · {app.estadoConexion.modo === 'demo' ? 'sin conexión con SoupDB' : app.estadoConexion.detalle}
+            {#if app.estadoConexion.etiqueta}{app.estadoConexion.etiqueta} · {/if}
+            {app.estadoConexion.modo === 'demo' ? 'sin conexión con SoupDB' : app.estadoConexion.detalle}
           </span>
         </div>
 

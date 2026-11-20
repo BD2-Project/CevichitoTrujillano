@@ -139,12 +139,14 @@
           <p class="text-label-sm font-semibold uppercase tracking-[0.05em] text-on-surface-variant">Persistencia</p>
           <p class="mt-1 font-code text-code-sm text-on-surface">songs · audio_segments · analyses · analysis_matches</p>
         </div>
-        <div class="rounded-lg border border-outline-variant/50 bg-surface-container-low p-3">
-          <p class="text-label-sm font-semibold uppercase tracking-[0.05em] text-on-surface-variant">Integración</p>
-          <p class="mt-1 flex flex-wrap items-center gap-1.5">
-            <Insignia tono="info" punto>{app.estadoConexion.etiqueta}</Insignia>
-          </p>
-        </div>
+        {#if app.estadoConexion.etiqueta}
+          <div class="rounded-lg border border-outline-variant/50 bg-surface-container-low p-3">
+            <p class="text-label-sm font-semibold uppercase tracking-[0.05em] text-on-surface-variant">Integración</p>
+            <p class="mt-1 flex flex-wrap items-center gap-1.5">
+              <Insignia tono="info" punto>{app.estadoConexion.etiqueta}</Insignia>
+            </p>
+          </div>
+        {/if}
       </div>
       <div class="rounded-lg border border-advertencia/30 bg-advertencia-suave p-3 text-body-sm text-amber-900">
         <p class="flex items-start gap-1.5">

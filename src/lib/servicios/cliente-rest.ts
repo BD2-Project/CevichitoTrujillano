@@ -36,7 +36,7 @@ export class ClienteRest implements ClienteAudioTrace {
   estadoConexion(): EstadoConexion {
     return {
       modo: 'rest', conectado: this.conectado,
-      etiqueta: this.conectado ? 'SoupDB · API REST' : 'SoupDB sin conexión',
+      etiqueta: this.conectado ? '' : 'SoupDB sin conexión',
       detalle: `${this.origen} · ${this.conectado ? 'Catálogo e historial del servicio. Catálogo de solo lectura.' : 'Inicia el runtime de SoupDB y actualiza los datos. No se usan datos de demostración.'}`
     };
   }

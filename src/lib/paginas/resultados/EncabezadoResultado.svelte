@@ -1,8 +1,6 @@
 <script lang="ts">
   import type { EstadoAnalisis, ResultadoAnalisis } from '../../datos/tipos';
-  import { app } from '../../estado/aplicacion.svelte';
   import { enlace } from '../../navegacion/enrutador.svelte';
-  import { exportarCsvResultado } from '../../servicios/exportacion';
   import {
     etiquetaEstado,
     formatearDuracion,
@@ -18,15 +16,6 @@
     resultado.coincidencias.length > 0 ? 'con-evidencia' : 'sin-evidencia'
   );
   const duracion = $derived(resultado.metadatos?.duracionSegundos ?? null);
-
-  function exportarCsv() {
-    exportarCsvResultado(resultado);
-    app.notificar(
-      'exito',
-      'CSV generado',
-      `${resultado.coincidencias.length} coincidencias exportadas como datos tabulares.`
-    );
-  }
 
 </script>
 
@@ -82,7 +71,6 @@
       >
         <Boton variante="primario" icono="ios_share">Exportar reporte</Boton>
       </a>
-      <Boton variante="secundario" icono="table_view" onclick={exportarCsv}>Exportar CSV</Boton>
     </div>
   </div>
 </section>

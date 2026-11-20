@@ -25,7 +25,7 @@ DESCARGAS.mkdir()
 ID = 'a' * 32
 COINCIDENCIA = dict(query_start=0, query_end=5, song_id=1, title='Referencia de prueba', artist='Prueba técnica', source_start=0, source_end=5, score=.83, segment_count=1, min_score=.83, max_score=.83, alignment_offset_seconds=0, is_best_run=True)
 RESULTADO = dict(analysis_id=ID, filename='muestra.wav', created_at='2026-11-17T12:00:00.000000Z', segment_seconds=5, matches=[COINCIDENCIA])
-CANCION = dict(song_id=1, title='Referencia de prueba', artist='Prueba técnica', duration_seconds=6, segment_count=1, audio_url='/api/v1/catalog/1/audio')
+CANCION = dict(song_id=1, title='Referencia de prueba', artist='Prueba técnica', duration_seconds=6, segment_count=1, audio_url='/api/v1/catalog/1/audio?version=1')
 RESUMEN = dict(analysis_id=ID, filename='muestra.wav', created_at=RESULTADO['created_at'], segment_seconds=5, match_count=1, song_count=1, best_score=.83)
 audio = io.BytesIO()
 with wave.open(audio, 'wb') as archivo:
@@ -49,7 +49,7 @@ class Contrato(BaseHTTPRequestHandler):
         peticiones.append(self.path)
         if self.path == '/api/v1/catalog': self.responder(200, dict(catalog_mutable=False, song_count=1, segment_count=1, songs=[CANCION]))
         elif self.path == '/api/v1/catalog/1': self.responder(200, dict(**CANCION, segments=[dict(segment_id=1, segment_index=0, start_seconds=0, end_seconds=5)]))
-        elif self.path == '/api/v1/catalog/1/audio': self.responder(200, AUDIO, 'audio/wav')
+        elif self.path == CANCION['audio_url']: self.responder(200, AUDIO, 'audio/wav')
         elif self.path == '/api/v1/analyses': self.responder(200, [RESUMEN])
         elif self.path == f'/api/v1/analyses/{ID}': self.responder(200, RESULTADO)
         else: self.responder(404, dict(detail='No encontrado.'))
@@ -62,7 +62,7 @@ class Contrato(BaseHTTPRequestHandler):
             if f'error-{codigo}.wav'.encode() in cuerpo:
                 return self.responder(codigo, dict(detail=f'Fallo HTTP {codigo} de prueba.'))
         time.sleep(.5)
-        self.responder(200, {k: v for k, v in RESULTADO.items() if k != 'created_at'})
+        self.responder(200, RESULTADO)
 
 servidor = ThreadingHTTPServer(('127.0.0.1', 8765), Contrato)
 threading.Thread(target=servidor.serve_forever, daemon=True).start()
@@ -153,7 +153,9 @@ try:
     ruta('/nuevo')
     navegador.find_element(By.CSS_SELECTOR, 'input[type=file]').send_keys(str(SALIDA / 'muestra.wav'))
     espera.until(lambda _: asincrono("const {app}=await import('/src/lib/estado/aplicacion.svelte.ts'); return app.archivo?.name;") == 'muestra.wav')
+    consultas_previas = peticiones.count(f'/api/v1/analyses/{ID}')
     verificar('REST: multipart y resultado del servidor', asincrono("const {app}=await import('/src/lib/estado/aplicacion.svelte.ts'); await app.iniciarAnalisis(); return app.resultadoActual?.idAnalisis==='" + ID + "';") is True)
+    verificar('REST: resultado persistido sin segunda consulta', peticiones.count(f'/api/v1/analyses/{ID}') == consultas_previas and asincrono("const {app}=await import('/src/lib/estado/aplicacion.svelte.ts'); return app.resultadoActual?.creadoEn;") == '2026-11-17T12:00:00.000Z')
     for codigo in (422, 503, 500):
         valor = asincrono("const {app}=await import('/src/lib/estado/aplicacion.svelte.ts'); const b=await (await fetch('/src/../index.html')).blob(); await app.seleccionarArchivo(new File([b], 'error-" + str(codigo) + ".wav', {type:'audio/wav'})); await app.iniciarAnalisis(); return app.errorActual?.codigo;")
         verificar(f'REST: HTTP {codigo} llega a la pantalla de error', valor == str(codigo))

@@ -8,7 +8,7 @@ import { ErrorServicioAnalisis } from './cliente-mock';
 import {
   mapearCancion, mapearResultado, mapearResumen,
   type FilaCancion, type FilaAnalisis, type FilaAnalisisResumen
-} from './cliente-tauri';
+} from './mapeo';
 
 interface CancionHttp extends Omit<FilaCancion, 'audio_path' | 'segments'> {
   audio_url: string;
@@ -84,8 +84,8 @@ export class ClienteRest implements ClienteAudioTrace {
   }
 
   private cancion(fila: CancionHttp): DetalleCancion {
-    // Nunca usamos rutas internas del servidor: el audio se sirve por song_id.
-    const urlAudio = `${this.origen}/api/v1/catalog/${fila.song_id}/audio`;
+    const base = new URL(`${this.origen}/api/v1/`, window.location.origin);
+    const urlAudio = new URL(fila.audio_url, base).href;
     return mapearCancion({
       ...fila, audio_path: urlAudio,
       segments: fila.segments?.map((segmento) => ({
@@ -121,11 +121,15 @@ export class ClienteRest implements ClienteAudioTrace {
     const formulario = new FormData();
     formulario.append('file', archivo, archivo.name);
     onProgreso?.({ porcentaje: 0, etapa: 'Servicio de análisis', detalle: 'Enviando el audio y esperando la respuesta de SoupDB. La API no publica progreso por etapa.' });
-    const fila = await this.solicitar<Omit<FilaAnalisis, 'created_at'>>('/analyze', { method: 'POST', body: formulario });
+    const fila = await this.solicitar<Omit<FilaAnalisis, 'created_at'> & { created_at?: string }>('/analyze', { method: 'POST', body: formulario });
     if (!fila) throw this.fallo('500', 'El servicio no devolvió un resultado.', '/analyze');
-    // Consulta el resultado persistido sin repetir el an?lisis.
-    const persistido = await this.obtenerAnalisis(fila.analysis_id).catch(() => null);
-    const resultado = persistido ?? { ...mapearResultado({ ...fila, created_at: new Date().toISOString() }), origen: 'local' as const };
+    const { created_at, ...analisis } = fila;
+    const resultado = created_at
+      ? mapearResultado({ ...analisis, created_at })
+      : {
+          ...mapearResultado({ ...analisis, created_at: new Date().toISOString() }),
+          origen: 'local' as const
+        };
     resultado.metadatos = configuracion.metadatosArchivo;
     onProgreso?.({ porcentaje: 100, etapa: 'Completado', detalle: 'Resultado recibido del servicio de análisis.' });
     return resultado;

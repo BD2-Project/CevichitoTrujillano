@@ -153,7 +153,6 @@
                 <span class="text-body-sm text-on-surface-variant">
                   {totalCatalogo > 0 ? `de ${formatearNumero(totalCatalogo)} en el catálogo` : 'Catálogo no cargado'}
                 </span>
-                <span class="font-code text-[10px] text-tertiary">Índice HNSW</span>
               </div>
             </td>
 

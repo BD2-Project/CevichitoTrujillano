@@ -98,7 +98,6 @@
     <div class="rounded-lg border border-outline-variant/40 px-2.5 py-2">
       <p class="text-label-sm uppercase tracking-[0.05em] text-on-surface-variant">Coincidencias</p>
       <p class="mt-0.5 text-label-md font-semibold text-on-surface">{textoCoincidencias(item.cantidadCoincidencias)}</p>
-      <p class="font-code text-[10px] text-tertiary">Índice HNSW</p>
     </div>
   </div>
 

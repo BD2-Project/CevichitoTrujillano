@@ -46,8 +46,6 @@
       valor={Math.min(1, cobertura)}
       etiqueta={formatearSimilitud(cobertura, 1)}
     />
-  {:else}
-    <p class="text-label-sm text-on-surface-variant">Duración del archivo no disponible</p>
   {/if}
 {/snippet}
 
@@ -86,7 +84,7 @@
       etiqueta="Material cubierto"
       valor={formatearDuracion(cubierto)}
       unidad="sin duplicar solapes"
-      detalle={duracion !== null ? `De ${formatearDuracion(duracion)} analizados` : 'Duración del archivo no disponible'}
+      detalle={duracion !== null ? `De ${formatearDuracion(duracion)} analizados` : undefined}
       icono="timelapse"
       tono="info"
       mono

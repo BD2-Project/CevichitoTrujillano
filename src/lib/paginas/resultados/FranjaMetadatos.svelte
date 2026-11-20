@@ -89,7 +89,6 @@
       <span class="material-symbols-outlined text-[16px] text-primary" aria-hidden="true">fingerprint</span>
       Metadatos del archivo
     </h2>
-    <span class="font-code text-[11px] text-on-surface-variant">Capturados en el navegador · no persistidos</span>
   </div>
 
   <dl class="mt-3 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3 xl:grid-cols-6">

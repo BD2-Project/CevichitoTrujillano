@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { CancionCatalogo } from '../../datos/tipos';
-  import Insignia from '../../componentes/ui/Insignia.svelte';
   import MiniEspectro from './MiniEspectro.svelte';
   import { formatearDuracion, formatearNumero } from '../../utilidades/formato';
 
@@ -14,7 +13,6 @@
     onSeleccionar: (cancion: CancionCatalogo) => void;
   } = $props();
 
-  const origen = $derived(cancion.origen ?? 'demo');
 </script>
 
 <button
@@ -35,9 +33,6 @@
       <p class="truncate text-headline-sm font-semibold text-on-surface transition-colors group-hover:text-primary">{cancion.titulo}</p>
       <p class="truncate text-body-sm text-on-surface-variant">{cancion.artista}</p>
     </div>
-    <Insignia tono={origen === 'persistido' ? 'info' : origen === 'local' ? 'primario' : 'terciario'} icono={origen === 'demo' ? 'science' : 'database'}>
-      {origen === 'persistido' ? 'SoupDB' : origen}
-    </Insignia>
   </div>
 
   <div class="flex flex-wrap items-center gap-1.5">

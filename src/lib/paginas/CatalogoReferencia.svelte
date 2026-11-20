@@ -215,7 +215,6 @@
         Añadir nueva referencia
       </a>
       {:else}
-        <span class="inline-flex items-center gap-2 rounded-lg border border-outline-variant/50 bg-surface-container-low px-3 py-2 text-label-md text-on-surface-variant" title="El servicio declara catalog_mutable: false; no expone altas ni importación en ejecución."><span class="material-symbols-outlined text-[18px]" aria-hidden="true">lock</span>Catálogo de solo lectura</span>
         <Boton icono="refresh" cargando={app.cargandoDatos} onclick={() => void app.recargarCatalogo()}>Actualizar catálogo</Boton>
       {/if}
     {/snippet}
@@ -455,7 +454,7 @@
           </div>
         {:else if vista === 'lista'}
           <div class="relative overflow-x-auto">
-            <table class="w-full min-w-[1040px] border-collapse text-left">
+            <table class="w-full min-w-[900px] border-collapse text-left">
               <caption class="sr-only">Referencias acústicas del catálogo con sus metadatos</caption>
               <thead>
                 <tr class="select-none bg-surface-container-low/70 text-label-sm uppercase tracking-[0.05em] text-on-surface-variant">
@@ -466,7 +465,6 @@
                   <th scope="col" class="px-3 py-2 font-semibold">Género</th>
                   <th scope="col" class="px-3 py-2 font-semibold">Año</th>
                   <th scope="col" class="px-3 py-2 font-semibold">Licencia</th>
-                  <th scope="col" class="px-3 py-2 font-semibold">Origen</th>
                   <th scope="col" class="px-3 py-2 pr-4 text-right font-semibold"><span class="sr-only">Acciones</span></th>
                 </tr>
               </thead>
@@ -494,13 +492,6 @@
         {/if}
 
         <div class="flex flex-col gap-2 border-t border-outline-variant/50 bg-surface-container-low/40 px-4 py-2.5 sm:flex-row sm:items-center sm:justify-between">
-          <p class="flex flex-wrap items-center gap-x-2 gap-y-1 font-code text-code-sm text-on-surface-variant">
-            <span>{formatearNumero(app.catalogo.length)} obras</span>
-            <span class="h-1 w-1 rounded-full bg-outline-variant" aria-hidden="true"></span>
-            <span>{formatearNumero(app.totalSegmentosCatalogo)} segmentos</span>
-            <span class="h-1 w-1 rounded-full bg-outline-variant" aria-hidden="true"></span>
-            <span class="text-secondary">{esDemo ? 'Datos locales' : 'Datos de SoupDB'}</span>
-          </p>
           <div class="flex flex-wrap items-center gap-2">
             <span class="text-body-sm text-on-surface-variant">
               {formatearNumero(visibles.length)} de {formatearNumero(referenciasFiltradas.length)}

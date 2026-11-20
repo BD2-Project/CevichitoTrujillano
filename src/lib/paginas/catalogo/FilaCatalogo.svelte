@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { CancionCatalogo } from '../../datos/tipos';
-  import Insignia from '../../componentes/ui/Insignia.svelte';
   import MiniEspectro from './MiniEspectro.svelte';
   import { formatearDuracion, formatearNumero } from '../../utilidades/formato';
 
@@ -14,7 +13,6 @@
     onSeleccionar: (cancion: CancionCatalogo) => void;
   } = $props();
 
-  const origen = $derived(cancion.origen ?? 'demo');
 </script>
 
 <!-- svelte-ignore a11y_click_events_have_key_events a11y_no_noninteractive_element_interactions -->
@@ -81,12 +79,6 @@
       <span class="material-symbols-outlined text-[14px]" aria-hidden="true">copyright</span>
       {cancion.licencia ?? 'Sin licencia declarada'}
     </span>
-  </td>
-
-  <td class="px-3 py-2.5">
-    <Insignia tono={origen === 'persistido' ? 'info' : origen === 'local' ? 'primario' : 'terciario'} icono={origen === 'demo' ? 'science' : 'database'}>
-      {origen === 'persistido' ? 'SoupDB' : origen}
-    </Insignia>
   </td>
 
   <td class="px-3 py-2.5 pr-4 text-right">

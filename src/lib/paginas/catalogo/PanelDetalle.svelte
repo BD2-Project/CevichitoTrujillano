@@ -2,7 +2,6 @@
   import type { CancionCatalogo, DetalleCancion } from '../../datos/tipos';
   import Boton from '../../componentes/ui/Boton.svelte';
   import EstadoVacio from '../../componentes/ui/EstadoVacio.svelte';
-  import Insignia from '../../componentes/ui/Insignia.svelte';
   import Reproductor from '../../componentes/audio/Reproductor.svelte';
   import MiniEspectro from './MiniEspectro.svelte';
   import { picosSimulados } from '../../utilidades/audio';
@@ -26,7 +25,6 @@
     onSolicitarAudio: () => void;
   } = $props();
 
-  const origen = $derived(cancion.origen ?? 'demo');
   const urlAudio = $derived(cancion.origen === 'persistido' || (cancion.origen === 'local' && /^https?:\/\//i.test(cancion.urlAudio)) ? cancion.urlAudio || null : null);
   const picos = $derived(picosSimulados(`${cancion.titulo}${cancion.idCancion}`, 140));
   const regiones = $derived(
@@ -68,9 +66,6 @@
   </div>
 
   <div class="flex flex-wrap items-center gap-1.5">
-    <Insignia tono={origen === 'persistido' ? 'info' : origen === 'local' ? 'primario' : 'terciario'} icono={origen === 'demo' ? 'science' : 'database'}>
-      {origen === 'persistido' ? 'SoupDB' : origen}
-    </Insignia>
     <span class="inline-flex items-center gap-1 rounded-full border border-outline-variant/50 bg-surface-container-low px-2 py-0.5 text-label-sm text-on-surface-variant">
       <span class="material-symbols-outlined text-[13px] text-secondary" aria-hidden="true">folder_special</span>
       {cancion.coleccion}

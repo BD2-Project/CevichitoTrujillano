@@ -81,19 +81,6 @@
 </script>
 
 <div class="space-y-4">
-  {#if app.nombreArchivoSugerido}
-    <div
-      class="flex items-start gap-2.5 rounded-xl border border-secondary/25 bg-secondary-container/25 p-3 text-body-sm leading-relaxed text-on-secondary-container"
-      role="status"
-    >
-      <span class="material-symbols-outlined mt-0.5 text-[18px]" aria-hidden="true">history</span>
-      <p>
-        <strong class="font-semibold">Sugerencia de reanálisis:</strong>
-        {app.nombreArchivoSugerido}. Selecciona el archivo para repetir el análisis.
-      </p>
-    </div>
-  {/if}
-
   <section class="panel p-4 sm:p-5" aria-labelledby="muestra-titulo">
     <div class="flex flex-wrap items-center justify-between gap-2">
       <div class="flex items-center gap-2">

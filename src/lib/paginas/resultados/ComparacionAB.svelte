@@ -98,10 +98,6 @@
     ];
   });
 
-  function reanalizar() {
-    app.prepararReanalisis(resultado);
-  }
-
   function avisarReferencia() {
     app.notificar(
       'info',
@@ -134,7 +130,7 @@
     {
       letra: 'A', titulo: 'Tu audio (analizado)', nombre: resultado.nombreArchivo,
       descripcion: 'Audio analizado', url: urlConsulta, picos: picosConsulta,
-      duracion: duracionConsulta, regiones: regionesConsulta, solicitarAudio: reanalizar,
+      duracion: duracionConsulta, regiones: regionesConsulta,
       inicio: coincidencia.inicioConsulta, fin: coincidencia.finConsulta
     },
     {

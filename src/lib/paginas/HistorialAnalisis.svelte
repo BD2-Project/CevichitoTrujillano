@@ -117,7 +117,7 @@
     <span class="material-symbols-outlined rounded-lg bg-secondary-container p-2 text-secondary" aria-hidden="true">info</span>
     <div class="space-y-1">
       <p class="text-label-md font-semibold text-on-surface">Evidencia técnica de similitud acústica</p>
-      <p class="text-body-sm text-on-surface-variant">La similitud no expresa una probabilidad de infracción ni constituye un dictamen. Los filtros organizan la evidencia y no representan un umbral legal. El historial conserva metadatos y resultados; el archivo de audio original debe cargarse de nuevo para reanalizar.</p>
+      <p class="text-body-sm text-on-surface-variant">La similitud no expresa una probabilidad de infracción ni constituye un dictamen. Los filtros organizan la evidencia y no representan un umbral legal.</p>
     </div>
   </section>
 </div>

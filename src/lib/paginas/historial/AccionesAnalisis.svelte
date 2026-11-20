@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { app } from '../../estado/aplicacion.svelte';
   import { enlace } from '../../navegacion/enrutador.svelte';
   import type { ResumenAnalisis } from '../../datos/tipos';
-  import { abreviarId } from '../../utilidades/formato';
 
   let {
     item,
@@ -11,29 +9,6 @@
     item: ResumenAnalisis;
     variante?: 'tabla' | 'tarjeta';
   } = $props();
-
-  let reanalizando = $state(false);
-
-  const idAbreviado = $derived(abreviarId(item.idAnalisis, 8));
-
-  async function reanalizar() {
-    if (reanalizando) return;
-    reanalizando = true;
-    try {
-      const resultado = await app.cargarResultado(item.idAnalisis);
-      if (resultado) {
-        app.prepararReanalisis(resultado);
-      } else {
-        app.notificar(
-          'advertencia',
-          'No se pudo preparar el reanálisis',
-          `El expediente ${idAbreviado} no está disponible en esta sesión.`
-        );
-      }
-    } finally {
-      reanalizando = false;
-    }
-  }
 </script>
 
 {#if variante === 'tabla'}
@@ -54,21 +29,6 @@
     >
       <span class="material-symbols-outlined text-[17px]" aria-hidden="true">file_download</span>
     </a>
-    <button
-      type="button"
-      class="enlace-foco flex h-7 w-7 items-center justify-center rounded-md text-on-surface-variant transition-colors hover:bg-surface-container hover:text-on-surface disabled:pointer-events-none disabled:opacity-50"
-      title="Reanalizar: vuelve a cargar el archivo original"
-      aria-label={`Reanalizar ${item.nombreArchivo}`}
-      aria-busy={reanalizando}
-      disabled={reanalizando}
-      onclick={reanalizar}
-    >
-      <span
-        class="material-symbols-outlined text-[17px]"
-        class:animate-spin={reanalizando}
-        aria-hidden="true">{reanalizando ? 'progress_activity' : 'restart_alt'}</span
-      >
-    </button>
   </div>
 {:else}
   <div class="flex items-center gap-2">
@@ -88,20 +48,5 @@
     >
       <span class="material-symbols-outlined text-[18px]" aria-hidden="true">file_download</span>
     </a>
-    <button
-      type="button"
-      class="enlace-foco flex h-9 w-9 items-center justify-center rounded-lg border border-outline-variant/60 bg-surface-container-lowest text-on-surface-variant transition-colors hover:bg-surface-container hover:text-on-surface disabled:pointer-events-none disabled:opacity-50"
-      title="Reanalizar: vuelve a cargar el archivo original"
-      aria-label={`Reanalizar ${item.nombreArchivo}`}
-      aria-busy={reanalizando}
-      disabled={reanalizando}
-      onclick={reanalizar}
-    >
-      <span
-        class="material-symbols-outlined text-[18px]"
-        class:animate-spin={reanalizando}
-        aria-hidden="true">{reanalizando ? 'progress_activity' : 'restart_alt'}</span
-      >
-    </button>
   </div>
 {/if}

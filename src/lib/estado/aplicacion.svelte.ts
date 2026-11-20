@@ -40,7 +40,6 @@ class EstadoAplicacion {
   archivo = $state<File | null>(null);
   urlArchivo = $state<string | null>(null);
   configuracion = $state<ConfiguracionAnalisis>({ ...CONFIGURACION_DEMO, forzarError: null });
-  nombreArchivoSugerido = $state<string | null>(null);
 
   trabajoActivo = $state(false);
   progreso = $state<ProgresoAnalisis | null>(null);
@@ -139,7 +138,6 @@ class EstadoAplicacion {
     this.limpiarArchivo();
     this.archivo = archivo;
     this.urlArchivo = crearUrlObjeto(archivo);
-    this.nombreArchivoSugerido = null;
     const metadatos = await leerMetadatosAudio(archivo);
     this.configuracion.metadatosArchivo = {
       duracionSegundos: metadatos.duracionSegundos,
@@ -156,16 +154,6 @@ class EstadoAplicacion {
     this.urlArchivo = null;
     this.archivo = null;
     this.configuracion.metadatosArchivo = undefined;
-  }
-
-  prepararReanalisis(resultado: ResultadoAnalisis): void {
-    this.nombreArchivoSugerido = nombreArchivoSeguro(resultado.nombreArchivo);
-    this.notificar(
-      'info',
-      'Vuelve a cargar el archivo',
-      'Selecciona el archivo que quieras volver a analizar.'
-    );
-    enrutador.ir('nuevo');
   }
 
   async iniciarAnalisis(): Promise<void> {

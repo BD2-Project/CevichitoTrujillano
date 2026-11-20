@@ -19,10 +19,6 @@
   );
   const duracion = $derived(resultado.metadatos?.duracionSegundos ?? null);
 
-  function reanalizar() {
-    app.prepararReanalisis(resultado);
-  }
-
   function exportarCsv() {
     exportarCsvResultado(resultado);
     app.notificar(
@@ -79,7 +75,6 @@
     </div>
 
     <div class="flex shrink-0 flex-wrap items-center gap-2 xl:max-w-xs xl:justify-end">
-      <Boton variante="terciario" icono="replay" onclick={reanalizar}>Reanalizar</Boton>
       <a
         href={enlace('resultados', { id: resultado.idAnalisis }, { modal: 'exportar' })}
         class="enlace-foco rounded-lg"

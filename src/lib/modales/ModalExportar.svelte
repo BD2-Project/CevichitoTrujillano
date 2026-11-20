@@ -260,7 +260,7 @@
 <Modal
   abierto={true}
   titulo="Exportar reporte técnico"
-  subtitulo="Genera un documento o dataset con las coincidencias; la similitud es evidencia técnica, no un dictamen."
+  subtitulo="Genera un documento o dataset con las coincidencias."
   icono="description"
   ancho="lg"
   onCerrar={onCerrar}

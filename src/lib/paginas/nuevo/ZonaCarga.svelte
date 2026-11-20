@@ -278,7 +278,7 @@
         </p>
       </div>
     {/if}
-    <div class="mt-4 flex justify-end">
+    <div class="mt-4 flex justify-center">
       <Boton
         variante="primario"
         tamanio="lg"

@@ -13,14 +13,15 @@
   import ComparacionAB from './resultados/ComparacionAB.svelte';
   import FranjaMetadatos from './resultados/FranjaMetadatos.svelte';
   import type { OrdenCoincidencias, PestanaResultado } from './resultados/tipos';
-  import { indexarYOrdenar } from './resultados/utiles';
+  import { agruparCoincidencias, indexarYOrdenar } from './resultados/utiles';
   let { id }: { id: string } = $props();
   let resultado = $state<ResultadoAnalisis | null>(null);
   let cargando = $state(true);
   let pestana = $state<PestanaResultado>('coincidencias');
   let orden = $state<OrdenCoincidencias>('similitud');
   let indiceSeleccionado = $state<number | null>(null);
-  const coincidencias = $derived(indexarYOrdenar(resultado?.coincidencias ?? [], orden));
+  const grupos = $derived(agruparCoincidencias(indexarYOrdenar(resultado?.coincidencias ?? [], orden)));
+  const coincidencias = $derived(grupos.flatMap((grupo) => grupo.tramos));
   const seleccionada = $derived(indiceSeleccionado === null ? null : resultado?.coincidencias[indiceSeleccionado] ?? null);
 
   $effect(() => {
@@ -65,7 +66,7 @@
     <PestanasResultado activa={pestana} cantidadCoincidencias={coincidencias.length} onCambiar={(valor) => pestana = valor} />
     <div role="tabpanel" id={`panel-${pestana}`} aria-labelledby={`pestana-${pestana}`} tabindex="0" class="enlace-foco rounded-xl">
       {#if pestana === 'coincidencias'}
-        <TablaCoincidencias {coincidencias} {orden} {indiceSeleccionado} onCambiarOrden={(valor) => orden = valor} onSeleccionar={(indice) => indiceSeleccionado = indice} onComparar={comparar} />
+        <TablaCoincidencias {grupos} {orden} {indiceSeleccionado} onCambiarOrden={(valor) => orden = valor} onSeleccionar={(indice) => indiceSeleccionado = indice} onComparar={comparar} />
       {:else if pestana === 'comparacion'}
         <ComparacionAB {resultado} coincidencia={seleccionada} indice={indiceSeleccionado} {coincidencias} onAnterior={() => desplazar(-1)} onSiguiente={() => desplazar(1)} />
       {:else}

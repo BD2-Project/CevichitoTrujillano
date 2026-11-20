@@ -8,6 +8,27 @@ export interface CoincidenciaIndexada {
   coincidencia: Coincidencia;
 }
 
+export interface CoincidenciasPorCancion {
+  idCancion: number;
+  titulo: string;
+  artista: string;
+  tramos: CoincidenciaIndexada[];
+}
+
+export function agruparCoincidencias(coincidencias: CoincidenciaIndexada[]): CoincidenciasPorCancion[] {
+  const grupos = new Map<number, CoincidenciasPorCancion>();
+  for (const item of coincidencias) {
+    const { idCancion, titulo, artista } = item.coincidencia;
+    const grupo = grupos.get(idCancion);
+    if (grupo) {
+      grupo.tramos.push(item);
+    } else {
+      grupos.set(idCancion, { idCancion, titulo, artista, tramos: [item] });
+    }
+  }
+  return [...grupos.values()];
+}
+
 /** Desplazamiento de alineación con signo explícito y separador decimal local. */
 export function formatearDesplazamiento(segundos: number): string {
   const valor = Number.isFinite(segundos) ? segundos : 0;

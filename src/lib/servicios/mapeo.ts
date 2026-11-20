@@ -88,7 +88,7 @@ export function mapearCancion(fila: FilaCancion): DetalleCancion {
     urlAudio: fila.audio_path,
     genero: fila.genre ?? 'Sin clasificar',
     anio: fila.year ?? 0,
-    coleccion: fila.collection ?? 'Catálogo SoupDB',
+    coleccion: fila.collection ?? 'Sin colección',
     licencia: fila.license ?? undefined,
     origen: 'persistido',
     segmentos

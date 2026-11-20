@@ -191,17 +191,6 @@
 <svelte:window onkeydown={alTeclear} />
 
 <div class="space-y-4">
-  <div class="flex flex-wrap items-center gap-x-2 gap-y-1 font-code text-code-sm text-on-surface-variant">
-    <span>OBRAS: <strong class="tabular text-on-surface">{cargandoCatalogo ? '—' : formatearNumero(app.catalogo.length)}</strong></span>
-    <span class="h-1 w-1 rounded-full bg-outline-variant" aria-hidden="true"></span>
-    <span>SEGMENTOS: <strong class="tabular text-on-surface">{cargandoCatalogo ? '—' : formatearNumero(app.totalSegmentosCatalogo)}</strong></span>
-    <span class="h-1 w-1 rounded-full bg-outline-variant" aria-hidden="true"></span>
-    <span class="inline-flex items-center gap-1 text-secondary">
-      <span class="h-1.5 w-1.5 rounded-full bg-secondary" aria-hidden="true"></span>
-      {esDemo ? 'DEMOSTRACIÓN LOCAL' : app.estadoConexion.conectado ? 'CATÁLOGO DE SOUPDB' : 'SIN CONEXIÓN'}
-    </span>
-  </div>
-
   <EncabezadoPagina
     etiqueta="Base de datos acústica"
     titulo="Catálogo de referencia acústica"
@@ -249,7 +238,6 @@
         etiqueta="Obras indexadas"
         valor={formatearNumero(app.catalogo.length)}
         unidad="títulos"
-        detalle={`${formatearNumero(colecciones.length)} ${colecciones.length === 1 ? 'colección' : 'colecciones'} · ${esDemo ? 'corpus de demostración' : 'catálogo del servicio'}`}
         icono="album"
         tono="primario"
       />
@@ -383,20 +371,15 @@
           {referenciasFiltradas.length === 1 ? 'referencia' : 'referencias'}
           {#if hayFiltros}<span class="ml-1 text-primary">· filtros activos</span>{/if}
         </p>
-        <div class="flex flex-wrap items-center gap-2">
-          <span class="font-code text-code-sm text-on-surface-variant">
-            TOTAL: {formatearNumero(app.catalogo.length)} obras · {formatearNumero(app.totalSegmentosCatalogo)} segmentos
-          </span>
-          <Boton
-            tamanio="sm"
-            variante={hayFiltros ? 'contorno' : 'fantasma'}
-            icono="filter_alt_off"
-            deshabilitado={!hayFiltros}
-            onclick={limpiarFiltros}
-          >
-            Limpiar filtros
-          </Boton>
-        </div>
+        <Boton
+          tamanio="sm"
+          variante={hayFiltros ? 'contorno' : 'fantasma'}
+          icono="filter_alt_off"
+          deshabilitado={!hayFiltros}
+          onclick={limpiarFiltros}
+        >
+          Limpiar filtros
+        </Boton>
       </div>
     </section>
 
@@ -431,19 +414,9 @@
       {/if}
 
       <section class="order-last min-w-0 overflow-hidden rounded-xl border border-outline-variant/60 bg-surface-container-lowest shadow-panel xl:order-1" aria-label="Referencias del catálogo">
-        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-outline-variant/50 px-4 py-2.5">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-[19px] text-primary" aria-hidden="true">library_music</span>
-            <h2 class="text-headline-sm font-semibold text-on-surface">Referencias del catálogo</h2>
-            <span class="rounded bg-surface-container px-1.5 py-0.5 font-code text-code-sm tabular text-on-surface-variant">
-              {formatearNumero(referenciasFiltradas.length)} / {formatearNumero(app.catalogo.length)}
-            </span>
-          </div>
-          <span class="inline-flex items-center gap-1.5 text-body-sm text-on-surface-variant">
-            <span class="h-1.5 w-1.5 rounded-full bg-secondary" aria-hidden="true"></span>
-            {#if app.estadoConexion.etiqueta}{app.estadoConexion.etiqueta} · {/if}
-            {app.estadoConexion.modo === 'demo' ? 'sin conexión con SoupDB' : app.estadoConexion.detalle}
-          </span>
+        <div class="flex items-center gap-2 border-b border-outline-variant/50 px-4 py-2.5">
+          <span class="material-symbols-outlined text-[19px] text-primary" aria-hidden="true">library_music</span>
+          <h2 class="text-headline-sm font-semibold text-on-surface">Referencias del catálogo</h2>
         </div>
 
         {#if app.catalogo.length === 0}

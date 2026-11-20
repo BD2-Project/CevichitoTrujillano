@@ -59,8 +59,8 @@
   );
   const urlConsulta = $derived(
     app.resultadoActual?.idAnalisis === resultado.idAnalisis && app.archivo?.name === resultado.nombreArchivo
-      ? app.urlArchivo
-      : null
+      ? app.urlArchivo ?? resultado.urlAudio
+      : resultado.urlAudio
   );
   const urlReferencia = $derived(cancion?.origen !== 'demo' && /^(https?:|blob:)/.test(cancion?.urlAudio ?? '') ? cancion?.urlAudio : null);
 
@@ -137,6 +137,9 @@
         <Boton variante="secundario" icono="history">Ver historial</Boton>
       </a>
     </EstadoVacio>
+    {#if urlConsulta}
+      <Reproductor urlAudio={urlConsulta} picos={picosConsulta} mostrarEncabezado={false} />
+    {/if}
   </section>
 {:else}
   <section class="rounded-xl border border-outline-variant/50 bg-surface-container-lowest shadow-panel" aria-labelledby="titulo-comparacion-ab">
@@ -217,7 +220,6 @@
               <span class="inline-block rounded bg-surface-container px-2 py-0.5 font-code text-[11px] font-semibold tabular text-primary">
                 {formatearCodigoTiempo(coincidencia.inicioConsulta)} – {formatearCodigoTiempo(coincidencia.finConsulta)}
               </span>
-              <p class="mt-1 text-label-sm text-on-surface-variant">{formatearDuracion(coincidencia.finConsulta - coincidencia.inicioConsulta)} de audio</p>
             </div>
           </header>
 
@@ -229,6 +231,7 @@
               duracionSegundos={duracionConsulta}
               regiones={regionesConsulta}
               variante="consola"
+              mostrarEncabezado={false}
             />
           {:else}
             <div class="flex flex-1 flex-col gap-2 rounded-xl bg-[#0f172a] p-3 text-white shadow-md">
@@ -237,7 +240,7 @@
                   <span class="material-symbols-outlined text-[18px] text-amber-300" aria-hidden="true">warning</span>
                   <div>
                     <p class="text-label-md font-semibold text-white">Audio no disponible en esta visita</p>
-                    <p class="text-body-sm text-white/60">El archivo subido no se persiste; vuelve a cargarlo para escuchar el fragmento.</p>
+                    <p class="text-body-sm text-white/60">Este expediente no tiene un archivo de audio disponible.</p>
                   </div>
                 </div>
                 <Boton variante="primario" tamanio="sm" icono="upload_file" onclick={reanalizar}>Volver a cargar</Boton>
@@ -254,10 +257,6 @@
                 clase="bg-black/45"
               />
 
-              <p class="flex items-start gap-1.5 rounded-lg border border-white/10 bg-white/5 px-2 py-1.5 text-code-sm text-white/65">
-                <span class="material-symbols-outlined text-[14px]" aria-hidden="true">info</span>
-                La región resaltada marca el tramo consultado [inicio, fin]. La onda es una representación determinista del nombre del archivo.
-              </p>
             </div>
           {/if}
 
@@ -281,7 +280,6 @@
               <span class="inline-block rounded bg-surface-container px-2 py-0.5 font-code text-[11px] font-semibold tabular text-secondary">
                 {formatearCodigoTiempo(coincidencia.inicioFuente)} – {formatearCodigoTiempo(coincidencia.finFuente)}
               </span>
-              <p class="mt-1 text-label-sm text-on-surface-variant">{formatearDuracion(coincidencia.finFuente - coincidencia.inicioFuente)} de referencia</p>
             </div>
           </header>
 

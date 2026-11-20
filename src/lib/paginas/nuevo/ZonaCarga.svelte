@@ -89,8 +89,7 @@
       <span class="material-symbols-outlined mt-0.5 text-[18px]" aria-hidden="true">history</span>
       <p>
         <strong class="font-semibold">Sugerencia de reanálisis:</strong>
-        {app.nombreArchivoSugerido}. El audio original no se conserva en el historial; vuelve a cargarlo para
-        repetir el cotejo.
+        {app.nombreArchivoSugerido}. Selecciona el archivo para repetir el análisis.
       </p>
     </div>
   {/if}

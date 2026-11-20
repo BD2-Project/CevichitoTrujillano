@@ -144,7 +144,7 @@
               Modo demostración: datos locales y análisis simulados. Las referencias añadidas se guardan en el navegador.
             {:else if app.estadoConexion.modo === 'rest'}
               La aplicación consume la API REST de SoupDB. El audio se envía al servicio para analizarlo;
-              el historial guarda resultados, sin conservar el archivo subido. El catálogo actual es de solo lectura.
+              el historial conserva los resultados y permite reproducir el audio de los análisis nuevos. El catálogo actual es de solo lectura.
             {:else}
               Contrato nativo Tauri + rsoup preparado. El análisis requiere el pipeline Python y no está implementado en este adaptador.
             {/if}

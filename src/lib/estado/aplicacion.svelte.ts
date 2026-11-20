@@ -163,7 +163,7 @@ class EstadoAplicacion {
     this.notificar(
       'info',
       'Vuelve a cargar el archivo',
-      'El audio original no se conserva en el historial; selecciónalo de nuevo para repetir el cotejo.'
+      'Selecciona el archivo que quieras volver a analizar.'
     );
     enrutador.ir('nuevo');
   }

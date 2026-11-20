@@ -79,6 +79,7 @@ export interface ResultadoAnalisis {
   coincidencias: Coincidencia[];
   creadoEn: string;
   origen?: OrigenDato;
+  urlAudio?: string;
   /** Metadatos locales del archivo; SoupDB no los persiste. */
   metadatos?: MetadatosArchivo;
 }

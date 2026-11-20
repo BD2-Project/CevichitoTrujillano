@@ -143,7 +143,7 @@
 
       <div class="separador mx-2.5 mt-1 pt-1.5">
         <p class="text-label-sm leading-snug text-on-surface-variant">
-          El registro incluye solo metadatos del análisis. El audio consultado no se conserva.
+          La exportación incluye los datos del análisis y omite los archivos de audio.
         </p>
         <a
           href={enlace('historial')}

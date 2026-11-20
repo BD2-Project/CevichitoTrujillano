@@ -24,6 +24,10 @@ interface CatalogoHttp {
   songs: CancionHttp[];
 }
 
+interface AnalisisHttp extends FilaAnalisis {
+  audio_url?: string;
+}
+
 export class ClienteRest implements ClienteAudioTrace {
   readonly modo = 'rest' as const;
   private readonly origen: string;
@@ -88,9 +92,12 @@ export class ClienteRest implements ClienteAudioTrace {
     }
   }
 
+  private resolverUrl(ruta: string): string {
+    return new URL(ruta, new URL(`${this.origen}/api/v1/`, window.location.origin)).href;
+  }
+
   private cancion(fila: CancionHttp): DetalleCancion {
-    const base = new URL(`${this.origen}/api/v1/`, window.location.origin);
-    const urlAudio = new URL(fila.audio_url, base).href;
+    const urlAudio = this.resolverUrl(fila.audio_url);
     return mapearCancion({
       ...fila, audio_path: urlAudio,
       segments: fila.segments?.map((segmento) => ({
@@ -118,22 +125,29 @@ export class ClienteRest implements ClienteAudioTrace {
   }
 
   async obtenerAnalisis(idAnalisis: string): Promise<ResultadoAnalisis | null> {
-    const fila = await this.solicitar<FilaAnalisis>(`/analyses/${encodeURIComponent(idAnalisis)}`, {}, true);
-    return fila ? mapearResultado(fila) : null;
+    const fila = await this.solicitar<AnalisisHttp>(`/analyses/${encodeURIComponent(idAnalisis)}`, {}, true);
+    return fila ? this.resultado(fila) : null;
+  }
+
+  private resultado(fila: AnalisisHttp): ResultadoAnalisis {
+    return {
+      ...mapearResultado(fila),
+      urlAudio: fila.audio_url ? this.resolverUrl(fila.audio_url) : undefined
+    };
   }
 
   async analizarAudio(archivo: File, configuracion: ConfiguracionAnalisis, onProgreso?: (progreso: ProgresoAnalisis) => void): Promise<ResultadoAnalisis> {
     const formulario = new FormData();
     formulario.append('file', archivo, archivo.name);
     onProgreso?.({ porcentaje: 0, etapa: 'Servicio de análisis', detalle: 'Enviando el audio y esperando la respuesta de SoupDB. La API no publica progreso por etapa.' });
-    const fila = await this.solicitar<Omit<FilaAnalisis, 'created_at'> & { created_at?: string }>('/analyze', { method: 'POST', body: formulario });
+    const fila = await this.solicitar<Omit<AnalisisHttp, 'created_at'> & { created_at?: string }>('/analyze', { method: 'POST', body: formulario });
     if (!fila) throw this.fallo('500', 'El servicio no devolvió un resultado.', '/analyze');
     const { created_at, ...analisis } = fila;
     const persistido = created_at
-      ? mapearResultado({ ...analisis, created_at })
+      ? this.resultado({ ...analisis, created_at })
       : await this.obtenerAnalisis(fila.analysis_id).catch(() => null);
     const resultado = persistido ?? {
-      ...mapearResultado({ ...analisis, created_at: new Date().toISOString() }),
+      ...this.resultado({ ...analisis, created_at: new Date().toISOString() }),
       origen: 'local' as const
     };
     resultado.metadatos = configuracion.metadatosArchivo;

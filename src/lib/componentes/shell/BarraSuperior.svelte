@@ -61,12 +61,5 @@
         <Boton variante="primario" tamanio="sm" icono="add">{ETIQUETAS_NAVEGACION.nuevo}</Boton>
       </a>
     </div>
-    <div
-      class="flex h-8 w-8 items-center justify-center rounded-full border border-outline-variant/60 bg-surface-container text-[11px] font-bold text-on-surface-variant"
-      title="Sesión local · AudioTrace"
-      aria-label="Sesión local"
-    >
-      AT
-    </div>
   </div>
 </header>

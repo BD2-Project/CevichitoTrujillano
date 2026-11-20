@@ -14,6 +14,12 @@ export interface Ruta {
   hash: string;
 }
 
+export const ETIQUETAS_NAVEGACION = {
+  nuevo: 'Nuevo análisis',
+  historial: 'Historial',
+  catalogo: 'Catálogo'
+} as const;
+
 const RUTA_INICIAL = '/nuevo';
 
 function parsearHash(hash: string): Ruta {

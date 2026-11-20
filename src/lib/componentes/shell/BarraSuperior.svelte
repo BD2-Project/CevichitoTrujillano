@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { enlace, enrutador } from '../../navegacion/enrutador.svelte';
+  import { enlace, enrutador, ETIQUETAS_NAVEGACION } from '../../navegacion/enrutador.svelte';
   import type { NombreRuta } from '../../navegacion/enrutador.svelte';
   import Boton from '../ui/Boton.svelte';
   import IndicadorConexion from './IndicadorConexion.svelte';
@@ -7,11 +7,11 @@
   let { onAbrirMenu }: { onAbrirMenu?: () => void } = $props();
 
   const migas: Record<NombreRuta, { grupo: string; titulo: string; icono: string }> = {
-    nuevo: { grupo: 'Análisis', titulo: 'Nuevo cotejo', icono: 'add_circle' },
+    nuevo: { grupo: 'Análisis', titulo: ETIQUETAS_NAVEGACION.nuevo, icono: 'add_circle' },
     progreso: { grupo: 'Análisis', titulo: 'Pipeline en progreso', icono: 'model_training' },
     resultados: { grupo: 'Expediente', titulo: 'Resultados del cotejo', icono: 'analytics' },
-    historial: { grupo: 'Registro', titulo: 'Historial de análisis', icono: 'history' },
-    catalogo: { grupo: 'Referencias', titulo: 'Catálogo acústico', icono: 'library_music' },
+    historial: { grupo: 'Registro', titulo: ETIQUETAS_NAVEGACION.historial, icono: 'history' },
+    catalogo: { grupo: 'Referencias', titulo: ETIQUETAS_NAVEGACION.catalogo, icono: 'library_music' },
     error: { grupo: 'Diagnóstico', titulo: 'Fallo del análisis', icono: 'report' },
     'no-encontrado': { grupo: 'Sistema', titulo: 'Ruta no encontrada', icono: 'explore_off' }
   };
@@ -60,7 +60,7 @@
     <span class="hidden h-5 w-px bg-outline-variant/60 sm:block"></span>
     <div class="hidden md:block">
       <a href={enlace('nuevo')}>
-        <Boton variante="primario" tamanio="sm" icono="add">Nuevo análisis</Boton>
+        <Boton variante="primario" tamanio="sm" icono="add">{ETIQUETAS_NAVEGACION.nuevo}</Boton>
       </a>
     </div>
     <div

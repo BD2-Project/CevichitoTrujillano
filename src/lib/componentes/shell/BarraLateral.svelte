@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { enlace, enrutador } from '../../navegacion/enrutador.svelte';
+  import { enlace, enrutador, ETIQUETAS_NAVEGACION } from '../../navegacion/enrutador.svelte';
   import { NOMBRE_APLICACION } from '../../datos/constantes';
 
   let {
@@ -13,9 +13,9 @@
   } = $props();
 
   const enlaces = [
-    { ruta: 'nuevo' as const, etiqueta: 'Nuevo análisis', icono: 'add_circle', descripcion: 'Cargar audio y configurar el cotejo' },
-    { ruta: 'historial' as const, etiqueta: 'Historial', icono: 'history', descripcion: 'Expedientes y resultados anteriores' },
-    { ruta: 'catalogo' as const, etiqueta: 'Catálogo', icono: 'library_music', descripcion: 'Referencias acústicas indexadas' }
+    { ruta: 'nuevo' as const, icono: 'add_circle', descripcion: 'Cargar audio y configurar el cotejo' },
+    { ruta: 'historial' as const, icono: 'history', descripcion: 'Expedientes y resultados anteriores' },
+    { ruta: 'catalogo' as const, icono: 'library_music', descripcion: 'Referencias acústicas indexadas' }
   ];
 
   function activa(nombre: 'nuevo' | 'historial' | 'catalogo'): boolean {
@@ -90,7 +90,7 @@
               aria-hidden="true">{item.icono}</span
             >
             <span class="min-w-0">
-              <span class="block text-label-md font-semibold">{item.etiqueta}</span>
+              <span class="block text-label-md font-semibold">{ETIQUETAS_NAVEGACION[item.ruta]}</span>
               <span class="mt-0.5 block text-body-sm leading-tight text-on-surface-variant/80">{item.descripcion}</span>
             </span>
           </a>

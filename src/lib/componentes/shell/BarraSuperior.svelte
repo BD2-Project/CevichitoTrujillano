@@ -56,7 +56,7 @@
   </div>
 
   <div class="flex shrink-0 items-center gap-2">
-    <div class="hidden sm:block"><IndicadorConexion compacto /></div>
+    <div class="hidden sm:block"><IndicadorConexion /></div>
     <span class="hidden h-5 w-px bg-outline-variant/60 sm:block"></span>
     <div class="hidden md:block">
       <a href={enlace('nuevo')}>

@@ -1,8 +1,6 @@
 <script lang="ts">
   import { enlace, enrutador } from '../../navegacion/enrutador.svelte';
   import { NOMBRE_APLICACION, VERSION_ESQUEMA } from '../../datos/constantes';
-  import { app } from '../../estado/aplicacion.svelte';
-  import IndicadorConexion from './IndicadorConexion.svelte';
 
   let {
     abierto = false,
@@ -100,46 +98,16 @@
       {/each}
     </ul>
 
-    <div class="my-4 border-t border-outline-variant/50"></div>
-
-    <div class="space-y-2 px-1">
-      <div class="rounded-xl border border-outline-variant/50 bg-surface-container-low/60 p-3">
-        <div class="flex items-center justify-between gap-2">
-          <span class="text-label-sm font-semibold uppercase tracking-[0.05em] text-on-surface-variant">Motor acústico</span>
-          <span class="rounded bg-secondary-container/60 px-1.5 py-0.5 font-code text-[10px] font-semibold text-on-secondary-container">MFCC</span>
-        </div>
-        <p class="mt-1 text-label-md font-semibold text-on-surface">Índice HNSW</p>
-        <div class="mt-1.5 flex items-center justify-between font-code text-[11px] text-on-surface-variant">
-          <span>20 coef. · 128 dim</span>
-          <span class="text-secondary">5 s / ventana</span>
-        </div>
-      </div>
-
-      <div class="rounded-xl border border-outline-variant/50 p-3">
-        <div class="flex items-center justify-between gap-2">
-          <span class="text-label-sm font-semibold uppercase tracking-[0.05em] text-on-surface-variant">Catálogo</span>
-          <span class="font-code text-code-sm font-semibold text-on-surface tabular">{app.catalogo.length}</span>
-        </div>
-        <p class="mt-0.5 text-body-sm text-on-surface-variant">referencias · {app.totalSegmentosCatalogo} segmentos</p>
-        <a href={enlace('catalogo')} class="enlace-sutil mt-1.5 inline-flex items-center gap-1 text-body-sm" onclick={onCerrar}>
-          {app.estadoConexion.modo === 'demo' ? 'Gestionar referencias' : 'Consultar referencias'}
-          <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
-        </a>
-      </div>
-    </div>
   </nav>
 
-  <div class="space-y-2 border-t border-outline-variant/50 p-3">
-    <IndicadorConexion />
-    <div class="flex items-center justify-between gap-2 px-1 text-[10px] text-on-surface-variant">
-      <button
-        type="button"
-        class="enlace-foco rounded font-medium transition-colors hover:text-on-surface"
-        onclick={onAcercaDe}
-      >
-        Acerca de
-      </button>
-      <span class="font-code">esquema {VERSION_ESQUEMA}</span>
-    </div>
+  <div class="flex items-center justify-between gap-2 border-t border-outline-variant/50 px-4 py-3 text-[10px] text-on-surface-variant">
+    <button
+      type="button"
+      class="enlace-foco rounded font-medium transition-colors hover:text-on-surface"
+      onclick={onAcercaDe}
+    >
+      Acerca de
+    </button>
+    <span class="font-code">esquema {VERSION_ESQUEMA}</span>
   </div>
 </aside>

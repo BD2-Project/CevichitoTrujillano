@@ -67,7 +67,7 @@
       {#if pestana === 'coincidencias'}
         <TablaCoincidencias {coincidencias} {orden} {indiceSeleccionado} onCambiarOrden={(valor) => orden = valor} onSeleccionar={(indice) => indiceSeleccionado = indice} onComparar={comparar} />
       {:else if pestana === 'comparacion'}
-        <ComparacionAB {resultado} coincidencia={seleccionada} indice={indiceSeleccionado} {coincidencias} onSeleccionar={(indice) => indiceSeleccionado = indice} onAnterior={() => desplazar(-1)} onSiguiente={() => desplazar(1)} />
+        <ComparacionAB {resultado} coincidencia={seleccionada} indice={indiceSeleccionado} {coincidencias} onAnterior={() => desplazar(-1)} onSiguiente={() => desplazar(1)} />
       {:else}
         <FranjaMetadatos {resultado} />
       {/if}

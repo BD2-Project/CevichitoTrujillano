@@ -1,32 +1,26 @@
 <script lang="ts">
   import type { Coincidencia, ResultadoAnalisis } from '../../datos/tipos';
   import type { RegionOnda } from '../../componentes/audio/tipos';
-  import OndaAudio from '../../componentes/audio/OndaAudio.svelte';
   import Reproductor from '../../componentes/audio/Reproductor.svelte';
-  import BarraSimilitud from '../../componentes/ui/BarraSimilitud.svelte';
   import Boton from '../../componentes/ui/Boton.svelte';
   import EstadoVacio from '../../componentes/ui/EstadoVacio.svelte';
-  import Insignia from '../../componentes/ui/Insignia.svelte';
   import { app } from '../../estado/aplicacion.svelte';
   import { enlace } from '../../navegacion/enrutador.svelte';
   import { picosSimulados } from '../../utilidades/audio';
   import {
-    etiquetaSimilitud,
     formatearCodigoTiempo,
     formatearDuracion,
     formatearNumero,
-    formatearSimilitud,
-    tonoSimilitud
+    formatearSimilitud
   } from '../../utilidades/formato';
   import type { CoincidenciaIndexada } from './utiles';
-  import { claveCoincidencia, formatearDesplazamiento } from './utiles';
+  import { formatearDesplazamiento } from './utiles';
 
   let {
     resultado,
     coincidencia,
     indice,
     coincidencias,
-    onSeleccionar,
     onAnterior,
     onSiguiente
   }: {
@@ -34,7 +28,6 @@
     coincidencia: Coincidencia | null;
     indice: number | null;
     coincidencias: CoincidenciaIndexada[];
-    onSeleccionar: (indice: number) => void;
     onAnterior: () => void;
     onSiguiente: () => void;
   } = $props();
@@ -105,11 +98,6 @@
     ];
   });
 
-  function alElegir(evento: Event) {
-    const valor = Number((evento.currentTarget as HTMLSelectElement).value);
-    if (Number.isFinite(valor)) onSeleccionar(valor);
-  }
-
   function reanalizar() {
     app.prepararReanalisis(resultado);
   }
@@ -118,7 +106,7 @@
     app.notificar(
       'info',
       'Audio de referencia no disponible',
-      `${coincidencia?.titulo ?? 'La referencia'} no incluye un archivo reproducible en la demostración; la onda mostrada es una representación esquemática.`
+      `${coincidencia?.titulo ?? 'La referencia'} no tiene audio disponible.`
     );
   }
 </script>
@@ -142,184 +130,75 @@
     {/if}
   </section>
 {:else}
+  {@const pistas = [
+    {
+      letra: 'A', titulo: 'Tu audio (analizado)', nombre: resultado.nombreArchivo,
+      descripcion: 'Audio analizado', url: urlConsulta, picos: picosConsulta,
+      duracion: duracionConsulta, regiones: regionesConsulta, solicitarAudio: reanalizar,
+      inicio: coincidencia.inicioConsulta, fin: coincidencia.finConsulta
+    },
+    {
+      letra: 'B', titulo: 'Referencia de catálogo', nombre: coincidencia.titulo,
+      descripcion: `Audio de referencia · ${coincidencia.artista}`, url: urlReferencia, picos: picosReferencia,
+      duracion: duracionReferencia, regiones: regionesReferencia, solicitarAudio: avisarReferencia,
+      inicio: coincidencia.inicioFuente, fin: coincidencia.finFuente
+    }
+  ]}
   <section class="rounded-xl border border-outline-variant/50 bg-surface-container-lowest shadow-panel" aria-labelledby="titulo-comparacion-ab">
-    <header class="flex flex-col gap-3 border-b border-outline-variant/40 p-4 sm:p-5 xl:flex-row xl:items-center xl:justify-between">
-      <div class="min-w-0">
-        <p class="text-label-sm font-semibold uppercase tracking-[0.08em] text-primary">Laboratorio de comparación A/B</p>
-        <h2 id="titulo-comparacion-ab" class="mt-0.5 text-headline-sm font-semibold text-on-surface">
-          Tramo consultado frente a referencia
-        </h2>
-        <p class="mt-0.5 text-body-sm text-on-surface-variant">
-          {coincidencia.titulo} · {coincidencia.artista}
-          <span class="mx-1 text-outline-variant" aria-hidden="true">·</span>
-          Coincidencia {posicion >= 0 ? posicion + 1 : 1} de {total}
-        </p>
-      </div>
-
-      <div class="flex flex-wrap items-center gap-2">
-        {#if total > 1}
-          <div class="flex min-w-0 items-center gap-2">
-            <label for="selector-coincidencia-ab" class="text-label-sm font-semibold uppercase tracking-[0.05em] text-on-surface-variant">
-              Coincidencia
-            </label>
-            <select
-              id="selector-coincidencia-ab"
-              class="campo-selector max-w-64 py-1.5 pr-8 text-label-md"
-              value={indice ?? undefined}
-              onchange={alElegir}
-            >
-              {#each coincidencias as item, ordenVisible (claveCoincidencia(item))}
-                <option value={item.indice}>
-                  {ordenVisible + 1}. {item.coincidencia.titulo} · {formatearSimilitud(item.coincidencia.similitud)}
-                </option>
-              {/each}
-            </select>
-          </div>
-        {/if}
-
-        <div class="inline-flex items-center rounded-lg border border-outline-variant/50 bg-surface-container-low p-0.5">
-          <button
-            type="button"
-            class="enlace-foco flex h-8 w-8 items-center justify-center rounded-md text-on-surface-variant transition-colors hover:bg-surface-container hover:text-on-surface disabled:pointer-events-none disabled:opacity-40"
-            title="Coincidencia anterior"
-            aria-label="Coincidencia anterior"
-            disabled={!puedeAnterior}
-            onclick={onAnterior}
-          >
-            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">chevron_left</span>
-          </button>
-          <span class="min-w-16 px-1 text-center font-code text-code-sm font-semibold tabular text-on-surface">
-            {posicion >= 0 ? posicion + 1 : 1} / {total}
-          </span>
-          <button
-            type="button"
-            class="enlace-foco flex h-8 w-8 items-center justify-center rounded-md text-on-surface-variant transition-colors hover:bg-surface-container hover:text-on-surface disabled:pointer-events-none disabled:opacity-40"
-            title="Coincidencia siguiente"
-            aria-label="Coincidencia siguiente"
-            disabled={!puedeSiguiente}
-            onclick={onSiguiente}
-          >
-            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">chevron_right</span>
-          </button>
-        </div>
-      </div>
+    <header class="border-b border-outline-variant/40 p-4 sm:p-5">
+      <p class="text-label-sm font-semibold uppercase tracking-[0.08em] text-primary">Laboratorio de comparación A/B</p>
+      <h2 id="titulo-comparacion-ab" class="mt-0.5 text-headline-sm font-semibold text-on-surface">
+        Tramo consultado frente a referencia
+      </h2>
     </header>
 
     <div class="space-y-4 p-4 sm:p-5">
-      <div class="grid gap-3 lg:grid-cols-2 lg:items-stretch">
-        <article class="flex h-full flex-col gap-3 rounded-xl border border-outline-variant/50 bg-surface-container-low p-3 shadow-panel">
-          <header class="flex items-start justify-between gap-2">
-            <div class="flex min-w-0 items-center gap-2">
-              <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary font-code text-code-sm font-bold text-on-primary shadow-sm">A</span>
-              <div class="min-w-0">
-                <h3 class="text-label-md font-bold text-on-surface">Tu audio (analizado)</h3>
-                <p class="truncate font-code text-code-sm text-on-surface-variant">{resultado.nombreArchivo}</p>
+      <div class="grid gap-3 lg:grid-cols-2">
+        {#each pistas as pista (pista.letra)}
+          <article class="min-w-0 rounded-xl border border-outline-variant/50 bg-surface-container-low p-3 shadow-panel">
+            <header class="mb-3 flex min-w-0 flex-wrap items-center justify-between gap-2">
+              <div class="flex min-w-0 items-center gap-2">
+                <span class={[
+                  'flex h-7 w-7 shrink-0 items-center justify-center rounded-md font-code text-code-sm font-bold shadow-sm',
+                  pista.letra === 'A' ? 'bg-primary text-on-primary' : 'bg-secondary text-on-secondary'
+                ].join(' ')}>{pista.letra}</span>
+                <h3 class="text-label-md font-bold text-on-surface">{pista.titulo}</h3>
               </div>
-            </div>
-            <div class="shrink-0 text-right">
-              <span class="inline-block rounded bg-surface-container px-2 py-0.5 font-code text-[11px] font-semibold tabular text-primary">
-                {formatearCodigoTiempo(coincidencia.inicioConsulta)} – {formatearCodigoTiempo(coincidencia.finConsulta)}
+              <span class={[
+                'rounded bg-surface-container px-2 py-0.5 font-code text-[11px] font-semibold tabular',
+                pista.letra === 'A' ? 'text-primary' : 'text-secondary'
+              ].join(' ')}>
+                {formatearCodigoTiempo(pista.inicio)} – {formatearCodigoTiempo(pista.fin)}
               </span>
-            </div>
-          </header>
-
-          {#if urlConsulta}
+            </header>
             <Reproductor
-              urlAudio={urlConsulta}
-              titulo={`A · ${resultado.nombreArchivo}`}
-              picos={picosConsulta}
-              duracionSegundos={duracionConsulta}
-              regiones={regionesConsulta}
+              urlAudio={pista.url}
+              titulo={pista.nombre}
+              descripcion={pista.descripcion}
+              picos={pista.picos}
+              duracionSegundos={pista.duracion}
+              regiones={pista.regiones}
+              onSolicitarAudio={pista.solicitarAudio}
               variante="consola"
-              mostrarEncabezado={false}
             />
-          {:else}
-            <div class="flex flex-1 flex-col gap-2 rounded-xl bg-[#0f172a] p-3 text-white shadow-md">
-              <div class="flex flex-wrap items-start justify-between gap-2">
-                <div class="flex items-start gap-2">
-                  <span class="material-symbols-outlined text-[18px] text-amber-300" aria-hidden="true">warning</span>
-                  <div>
-                    <p class="text-label-md font-semibold text-white">Audio no disponible en esta visita</p>
-                    <p class="text-body-sm text-white/60">Este expediente no tiene un archivo de audio disponible.</p>
-                  </div>
-                </div>
-                <Boton variante="primario" tamanio="sm" icono="upload_file" onclick={reanalizar}>Volver a cargar</Boton>
-              </div>
+          </article>
+        {/each}
+      </div>
 
-              <OndaAudio
-                picos={picosConsulta}
-                duracion={duracionConsulta}
-                posicion={0}
-                regiones={regionesConsulta}
-                altura={82}
-                colorBase="#64748b"
-                colorActivo="#5cd5fa"
-                clase="bg-black/45"
-              />
-
-            </div>
-          {/if}
-
-          <div class="mt-auto flex flex-wrap items-center justify-between gap-2">
-            <Insignia tono={tonoSimilitud(coincidencia.similitud)} icono="graphic_eq">
-              {etiquetaSimilitud(coincidencia.similitud)}
-            </Insignia>
-          </div>
-        </article>
-
-        <article class="flex h-full flex-col gap-3 rounded-xl border border-outline-variant/50 bg-surface-container-low p-3 shadow-panel">
-          <header class="flex items-start justify-between gap-2">
-            <div class="flex min-w-0 items-center gap-2">
-              <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-secondary font-code text-code-sm font-bold text-on-secondary shadow-sm">B</span>
-              <div class="min-w-0">
-                <h3 class="text-label-md font-bold text-on-surface">Referencia de catálogo</h3>
-                <p class="truncate text-body-sm text-on-surface-variant">{coincidencia.titulo} · {coincidencia.artista}</p>
-              </div>
-            </div>
-            <div class="shrink-0 text-right">
-              <span class="inline-block rounded bg-surface-container px-2 py-0.5 font-code text-[11px] font-semibold tabular text-secondary">
-                {formatearCodigoTiempo(coincidencia.inicioFuente)} – {formatearCodigoTiempo(coincidencia.finFuente)}
-              </span>
-            </div>
-          </header>
-
-          {#if urlReferencia}
-            <Reproductor urlAudio={urlReferencia} titulo={`B · ${coincidencia.titulo}`} picos={picosReferencia} duracionSegundos={duracionReferencia} regiones={regionesReferencia} variante="consola" />
-          {:else}
-          <div class="flex flex-1 flex-col gap-1.5 rounded-xl bg-[#0f172a] p-3 shadow-md">
-            <div class="flex flex-wrap items-center justify-between gap-2 text-white/55">
-              <span class="font-code text-[10px] uppercase tracking-[0.08em]">Representación esquemática</span>
-              <span class="font-code text-[10px]">Sin audio reproducible en la demo</span>
-            </div>
-            <OndaAudio
-              picos={picosReferencia}
-              duracion={duracionReferencia}
-              posicion={0}
-              regiones={regionesReferencia}
-              altura={82}
-              colorBase="#94a3b8"
-              colorActivo="#5cd5fa"
-              clase="bg-black/45"
-            />
-            <p class="text-code-sm text-white/50">
-              {#if cancion}
-                {formatearDuracion(cancion.duracionSegundos)} de referencia · {cancion.genero} · {cancion.anio}
-              {:else}
-                Duración de la referencia no disponible en el catálogo cargado
-              {/if}
-            </p>
-          </div>
-          {/if}
-
-          <div class="mt-auto flex flex-wrap items-center justify-between gap-2">
-            {#if !urlReferencia}<Boton variante="terciario" tamanio="sm" icono="volume_off" onclick={avisarReferencia}>Audio no disponible</Boton>{/if}
-            <span class="inline-flex items-center gap-1.5 rounded-full border border-secondary/20 bg-secondary-container/40 px-2.5 py-1 text-label-sm font-semibold text-on-secondary-container">
-              <span class="material-symbols-outlined text-[14px]" aria-hidden="true">verified</span>
-              Similitud {formatearSimilitud(coincidencia.similitud)}
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-secondary/20 bg-secondary-container/40 px-2.5 py-1 text-label-sm font-semibold text-on-secondary-container">
+          <span class="material-symbols-outlined text-[14px]" aria-hidden="true">verified</span>
+          Similitud {formatearSimilitud(coincidencia.similitud)}
+        </span>
+        {#if total > 1}
+          <nav class="flex items-center gap-1 rounded-lg border border-outline-variant/50 bg-surface-container-low p-0.5" aria-label="Navegar coincidencias">
+            <Boton variante="fantasma" tamanio="icono" icono="chevron_left" titulo="Coincidencia anterior" deshabilitado={!puedeAnterior} onclick={onAnterior} />
+            <span class="px-1 text-center font-code text-code-sm font-semibold tabular text-on-surface" aria-live="polite">
+              {posicion >= 0 ? posicion + 1 : 1} / {total}
             </span>
-          </div>
-
-        </article>
+            <Boton variante="fantasma" tamanio="icono" icono="chevron_right" titulo="Coincidencia siguiente" deshabilitado={!puedeSiguiente} onclick={onSiguiente} />
+          </nav>
+        {/if}
       </div>
 
       <div class="rounded-xl border border-outline-variant/50 bg-surface-container-low p-3 sm:p-4">

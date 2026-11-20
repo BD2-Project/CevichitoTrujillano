@@ -7,6 +7,7 @@
   let {
     urlAudio = null,
     titulo,
+    descripcion,
     picos,
     duracionSegundos,
     regiones = [],
@@ -18,6 +19,7 @@
   }: {
     urlAudio?: string | null;
     titulo?: string;
+    descripcion?: string;
     picos?: number[] | null;
     duracionSegundos?: number;
     regiones?: RegionOnda[];
@@ -60,7 +62,7 @@
   function alternar() {
     if (!elemento) return;
     if (!urlAudio) {
-      errorAudio = 'Sin archivo de audio disponible en la demostración. Carga un audio para escucharlo.';
+      errorAudio = 'No hay un archivo de audio disponible.';
       onSolicitarAudio?.();
       return;
     }
@@ -141,7 +143,7 @@
           </p>
           {#if !compacto}
             <p class={['truncate text-code-sm', esConsola ? 'text-white/55' : 'text-on-surface-variant'].join(' ')}>
-              {urlAudio ? (urlAudio.startsWith('blob:') ? 'Archivo local · reproducción real' : 'Audio de referencia · reproducción desde SoupDB') : 'Sin archivo de audio disponible'}
+              {urlAudio ? (descripcion ?? (urlAudio.startsWith('blob:') ? 'Archivo local · reproducción real' : 'Audio de referencia · reproducción desde SoupDB')) : 'Sin archivo de audio disponible'}
             </p>
           {/if}
         </div>

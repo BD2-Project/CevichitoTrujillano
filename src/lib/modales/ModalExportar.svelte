@@ -144,35 +144,6 @@
   );
 
   const contenidoPreview = $derived.by((): SeccionPreview[] => {
-    if (formato === 'pdf') {
-      return [
-        {
-          clave: 'metadatos',
-          titulo: 'Metadatos del expediente',
-          detalle: incluirMetadatos ? '9 filas' : 'excluido',
-          activa: incluirMetadatos
-        },
-        {
-          clave: 'resumen',
-          titulo: 'Resumen del cotejo',
-          detalle: incluirResumen ? '5 filas' : 'excluido',
-          activa: incluirResumen
-        },
-        {
-          clave: 'coincidencias',
-          titulo: 'Detalle de coincidencias',
-          detalle: incluirCoincidencias ? `${formatearNumero(coincidencias.length)} filas` : 'excluido',
-          activa: incluirCoincidencias
-        },
-        {
-          clave: 'advertencia',
-          titulo: 'Advertencia metodológica',
-          detalle: incluirAdvertencia ? '1 bloque' : 'excluido',
-          activa: incluirAdvertencia
-        }
-      ];
-    }
-
     if (formato === 'csv') {
       return [
         { clave: 'cabecera', titulo: 'Cabecera del análisis y advertencia', detalle: '2 filas', activa: true },
@@ -529,39 +500,41 @@
         </div>
       {/if}
 
-      <section class="rounded-xl border border-outline-variant/50 bg-surface-container-low/40 p-4" aria-labelledby="vista-previa-exportacion">
-        <div class="flex flex-wrap items-center justify-between gap-2">
-          <h3 id="vista-previa-exportacion" class="text-label-sm font-semibold uppercase tracking-[0.05em] text-on-surface-variant">
-            Vista previa del contenido
-          </h3>
-          <span class="inline-flex min-w-0 items-center gap-1 font-code text-code-sm text-on-surface-variant">
-            <span class="material-symbols-outlined text-[14px]" aria-hidden="true">description</span>
-            <span class="truncate">{nombreSalida}</span>
-          </span>
-        </div>
+      {#if formato !== 'pdf'}
+        <section class="rounded-xl border border-outline-variant/50 bg-surface-container-low/40 p-4" aria-labelledby="vista-previa-exportacion">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <h3 id="vista-previa-exportacion" class="text-label-sm font-semibold uppercase tracking-[0.05em] text-on-surface-variant">
+              Vista previa del contenido
+            </h3>
+            <span class="inline-flex min-w-0 items-center gap-1 font-code text-code-sm text-on-surface-variant">
+              <span class="material-symbols-outlined text-[14px]" aria-hidden="true">description</span>
+              <span class="truncate">{nombreSalida}</span>
+            </span>
+          </div>
 
-        <ul class="mt-2 divide-y divide-outline-variant/40">
-          {#each contenidoPreview as seccion (seccion.clave)}
-            <li class="flex items-start justify-between gap-3 py-1.5">
-              <span class={['flex min-w-0 items-start gap-2 text-body-sm', seccion.activa ? 'text-on-surface' : 'text-on-surface-variant/60'].join(' ')}>
-                <span
-                  class={['material-symbols-outlined mt-0.5 text-[16px]', seccion.activa ? 'text-secondary' : 'text-on-surface-variant/50'].join(' ')}
-                  aria-hidden="true">{seccion.activa ? 'check_circle' : 'remove_circle'}</span
-                >
-                <span class={seccion.activa ? '' : 'line-through'}>{seccion.titulo}</span>
-              </span>
-              <span class="shrink-0 text-right font-code text-code-sm text-on-surface-variant">{seccion.detalle}</span>
-            </li>
-          {/each}
-        </ul>
+          <ul class="mt-2 divide-y divide-outline-variant/40">
+            {#each contenidoPreview as seccion (seccion.clave)}
+              <li class="flex items-start justify-between gap-3 py-1.5">
+                <span class={['flex min-w-0 items-start gap-2 text-body-sm', seccion.activa ? 'text-on-surface' : 'text-on-surface-variant/60'].join(' ')}>
+                  <span
+                    class={['material-symbols-outlined mt-0.5 text-[16px]', seccion.activa ? 'text-secondary' : 'text-on-surface-variant/50'].join(' ')}
+                    aria-hidden="true">{seccion.activa ? 'check_circle' : 'remove_circle'}</span
+                  >
+                  <span class={seccion.activa ? '' : 'line-through'}>{seccion.titulo}</span>
+                </span>
+                <span class="shrink-0 text-right font-code text-code-sm text-on-surface-variant">{seccion.detalle}</span>
+              </li>
+            {/each}
+          </ul>
 
-        <div class="mt-3 rounded-lg border border-advertencia/30 bg-advertencia-suave/80 px-3 py-2">
-          <p class="flex items-start gap-1.5 text-body-sm text-amber-900">
-            <span class="material-symbols-outlined mt-0.5 text-[16px]" aria-hidden="true">warning</span>
-            <span>La similitud acústica es evidencia técnica: no equivale a una probabilidad de infracción ni a un dictamen legal.</span>
-          </p>
-        </div>
-      </section>
+          <div class="mt-3 rounded-lg border border-advertencia/30 bg-advertencia-suave/80 px-3 py-2">
+            <p class="flex items-start gap-1.5 text-body-sm text-amber-900">
+              <span class="material-symbols-outlined mt-0.5 text-[16px]" aria-hidden="true">warning</span>
+              <span>La similitud acústica es evidencia técnica: no equivale a una probabilidad de infracción ni a un dictamen legal.</span>
+            </p>
+          </div>
+        </section>
+      {/if}
     </div>
   {/if}
 
